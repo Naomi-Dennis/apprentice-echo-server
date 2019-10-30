@@ -1,9 +1,6 @@
 language: java
-install: true
-
-os: osx
-dist: trusty
+install: skip
 jdk: oraclejdk11
 
 script:
-        - ./gradlew build --scan -s
+        - ./gradlew build && ./gradlew test
