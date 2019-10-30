@@ -1,0 +1,34 @@
+package echoserver;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
+public class HostServer{
+    Integer port;
+
+    public HostServer(ServerSocket socket) {
+        this.socket = socket;
+        this.port = socket.getLocalPort();
+    }
+
+    public ClientConnection listenForConnection() throws IOException {
+        Socket connectedClient = this.socket.accept();
+
+        return new ClientConnection(connectedClient);
+    }
+
+    public void close() throws IOException{
+        this.socket.close();
+    }
+
+    public Boolean isClosed(){
+        return this.socket.isClosed();
+    }
+
+
+    private
+
+    ServerSocket socket;
+}
