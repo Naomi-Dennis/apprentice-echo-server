@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Naomi-Dennis/apprentice-echo-server.svg?branch=master)](https://travis-ci.org/Naomi-Dennis/apprentice-echo-server)
+
 # EchoServer
 
 A simple terminal based server that accepts input from an external connection and outputs given text input. 
