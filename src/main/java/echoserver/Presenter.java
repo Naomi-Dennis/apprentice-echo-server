@@ -5,18 +5,17 @@ public class Presenter {
         this.console = console;
     }
 
-    public void showAwaitingInputMessage(){
-        this.console.outputToScreen("Awaiting Input\n");
-    }
-
-    public void displayInputFromSocket(ClientConnection clientConnection) {
-        this.console.outputToScreen("Client Input: " + clientConnection.readLastSavedInput() + "\n");
+    public void showAwaitingInputMessageOnPort(Integer port){
+        this.console.outputToScreen("Awaiting Input on Port: " + port + "\n");
     }
 
     public void showConnectionClosingMessage(){
         this.console.outputToScreen("Connection closing\n");
     }
 
+    public void showClientInput(String input){
+        this.console.outputToScreen("Client Input: " + input + "\n");
+    }
 
     private
 

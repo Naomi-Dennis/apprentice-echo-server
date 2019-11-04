@@ -5,13 +5,19 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 class FakeClientConnection extends ClientConnection {
-    public void setInput(String input){
+    public FakeClientConnection(FakeSocket fs) {
+        super(fs);
+    }
+
+    public void setInput(String input) {
         this.input = input;
     }
-    public String readLastSavedInput(){
-       return this.input;
+
+    public String readLastSavedInput() {
+        return this.input;
     }
 
     private
@@ -22,34 +28,24 @@ class FakeClientConnection extends ClientConnection {
 public class PresenterTest {
 
     @Test
-    public void whenTheServerStartsShowAwaitingInputMessage() throws IOException{
+    public void whenTheServerStarts_ShowAwaitingInputMessage() throws IOException {
         FakeOutputStream outputStream = new FakeOutputStream();
         Console console = new Console(outputStream);
         Presenter presenter = new Presenter(console);
 
-        presenter.showAwaitingInputMessage();
+        presenter.showAwaitingInputMessageOnPort(5000);
         String screen_output = outputStream.convertToString();
 
-        Assert.assertTrue("Awaiting Input message not outputted", screen_output.matches("Awaiting Input\n"));
+        Boolean screenContainsAwaitingInput = Pattern.matches(".*Awaiting Input on Port: [0-9]+.*\n"
+                , screen_output);
+
+        Assert.assertTrue(screen_output + " " + screenContainsAwaitingInput,
+                screenContainsAwaitingInput);
     }
 
-    @Test
-    public void whenTheClientReturnsInputShowTheInput() throws IOException{
-        FakeOutputStream outputStream = new FakeOutputStream();
-        Console console = new Console(outputStream);
-        Presenter presenter = new Presenter(console);
-
-        FakeClientConnection clientConnection = new FakeClientConnection();
-        clientConnection.setInput("5");
-
-        presenter.displayInputFromSocket(clientConnection);
-        String screen_output = outputStream.convertToString();
-
-        Assert.assertEquals(screen_output, "Client Input: 5\n");
-    }
 
     @Test
-    public void whenTheConnectionIsAboutToClose_ShowAClosingConnectionMessage() throws IOException{
+    public void whenTheConnectionIsAboutToClose_ShowAClosingConnectionMessage() throws IOException {
         FakeOutputStream outputStream = new FakeOutputStream();
         Console console = new Console(outputStream);
         Presenter presenter = new Presenter(console);
@@ -58,6 +54,19 @@ public class PresenterTest {
         String screen_output = outputStream.convertToString();
 
 
-        Assert.assertTrue("Connection closing message not outputted", screen_output.matches("Connection closing\n"));
+        Assert.assertTrue("Connection closing message not outputted",
+                screen_output.matches("Connection closing\n"));
+    }
+
+    @Test
+    public void whenTheHostAcceptsClientInput_ShowTheInput() throws IOException {
+        FakeOutputStream outputStream = new FakeOutputStream();
+        Console console = new Console(outputStream);
+        Presenter presenter = new Presenter(console);
+
+        presenter.showClientInput("4");
+        String screen_output = outputStream.convertToString();
+
+        Assert.assertTrue(screen_output.matches(".*Client Input: .*\n"));
     }
 }
