@@ -10,30 +10,37 @@ public class ClientConnection {
         this.socket = socket;
     }
 
-    public String promptInput() throws IOException {
-        lastSavedInput = convertInputStreamToString(socket.getInputStream());
-        return lastSavedInput;
+    public String readInput() throws IOException {
+        String connectionInput = convertInputStreamToString(socket.getInputStream());
+        return connectionInput;
     }
 
-    public String readLastSavedInput(){
-        return lastSavedInput;
+    public void writeInput(String input) throws IOException {
+        String messageFormat = "=> ";
+        String message = messageFormat + input + "\n";
+        byte[] messageData = message.getBytes();
+
+        socket.getOutputStream().write(messageData);
     }
 
-    public OutputStream getOutputStream() throws IOException{
-        return socket.getOutputStream();
+    public void writeConnectionClosingMessage() throws IOException{
+        String message = "Connection Closing...\n";
+        byte[] messageData = message.getBytes();
+
+        socket.getOutputStream().write(messageData);
     }
 
     public Boolean isClosed(){
        return socket.isClosed();
     }
 
+
+
     private
 
     Socket socket;
-    String lastSavedInput;
 
     String convertInputStreamToString(InputStream is) throws IOException{
-        byte[] bytes = new byte[1000];
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(is));
         return bufReader.readLine();
     }
