@@ -13,7 +13,7 @@ public class HostServer{
         this.port = socket.getLocalPort();
     }
 
-    public ClientConnection listenForConnection() throws IOException {
+    public ClientConnection listenForClientConnection() throws IOException {
         Socket connectedClient = this.socket.accept();
 
         return new ClientConnection(connectedClient);
