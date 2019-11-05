@@ -4,22 +4,25 @@ import java.io.IOException;
 
 public class EchoServer {
 
-    public EchoServer(HostServer hostServer, Presenter hostScreen) {
+    public EchoServer(HostServer hostServer, Logger logger) {
         this.hostServer = hostServer;
-        this.hostScreen = hostScreen;
+        this.logger = logger;
     }
 
-    public void run() throws IOException {
+    public void start() throws IOException {
         ClientConnection connectedClient = hostServer.listenForClientConnection();
-        String clientInput = connectedClient.readInput();
-        hostScreen.showClientInput(clientInput);
-        connectedClient.writeInput(clientInput);
-        connectedClient.writeConnectionClosingMessage();
-                hostServer.close();
+        echo(connectedClient);
     }
 
     private
 
     HostServer hostServer;
-    Presenter hostScreen;
+    Logger logger;
+
+    void echo(ClientConnection connectedClient) throws IOException {
+        final String clientInput = connectedClient.readInput();
+        logger.log("Client Output: " + clientInput);
+        connectedClient.write("=> " + clientInput);
+        connectedClient.write("Connection closing...");
+    }
 }
