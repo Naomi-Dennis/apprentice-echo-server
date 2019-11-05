@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class HostServer{
+public class HostServer implements AutoCloseable{
     Integer port;
 
     public HostServer(ServerSocket socket) {
