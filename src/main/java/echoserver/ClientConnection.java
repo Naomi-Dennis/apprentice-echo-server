@@ -20,7 +20,6 @@ public class ClientConnection {
         socket.getOutputStream().write(message.getBytes());
     }
 
-    public void close(){}
     private
 
     Socket socket;
