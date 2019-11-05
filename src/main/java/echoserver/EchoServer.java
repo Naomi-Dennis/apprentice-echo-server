@@ -15,6 +15,7 @@ public class EchoServer {
         hostScreen.showClientInput(clientInput);
         connectedClient.writeInput(clientInput);
         connectedClient.writeConnectionClosingMessage();
+                hostServer.close();
     }
 
     private
