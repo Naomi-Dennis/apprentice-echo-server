@@ -15,27 +15,12 @@ public class ClientConnection {
         return connectionInput;
     }
 
-    public void writeInput(String input) throws IOException {
-        String messageFormat = "=> ";
-        String message = messageFormat + input + "\n";
-        byte[] messageData = message.getBytes();
-
-        socket.getOutputStream().write(messageData);
+    public void write(String message) throws IOException {
+        message += "\n";
+        socket.getOutputStream().write(message.getBytes());
     }
 
-    public void writeConnectionClosingMessage() throws IOException{
-        String message = "Connection Closing...\n";
-        byte[] messageData = message.getBytes();
-
-        socket.getOutputStream().write(messageData);
-    }
-
-    public Boolean isClosed(){
-       return socket.isClosed();
-    }
-
-
-
+    public void close(){}
     private
 
     Socket socket;
