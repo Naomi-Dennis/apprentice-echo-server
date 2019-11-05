@@ -10,8 +10,10 @@ public class EchoServer {
     }
 
     public void start() throws IOException {
-        ClientConnection connectedClient = hostServer.listenForClientConnection();
-        echo(connectedClient);
+        while(true) {
+            ClientConnection connectedClient = hostServer.listenForClientConnection();
+            echo(connectedClient);
+        }
     }
 
     private
@@ -24,5 +26,6 @@ public class EchoServer {
         logger.log("Client Output: " + clientInput);
         connectedClient.write("=> " + clientInput);
         connectedClient.write("Connection closing...");
+        connectedClient.close();
     }
 }

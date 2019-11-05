@@ -14,6 +14,7 @@ public class EchoServerProgram {
         Logger logger = new Logger(new Console(System.out));
         EchoServer echoServer = new EchoServer(hostServer, logger);
         logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
+
         try{
             echoServer.start();
         }
