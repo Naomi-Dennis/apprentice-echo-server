@@ -21,7 +21,7 @@ public class HostServerTest {
 
     @Test
     public void canAcceptClientConnection() throws IOException{
-        Integer testPort = 110;
+        Integer testPort = 5000;
         ServerSocket hostSocket = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
         HostServer host = new HostServer(hostSocket);
@@ -50,7 +50,7 @@ public class HostServerTest {
 
     @Test
     public void canCloseConnection() throws IOException {
-        Integer testPort = 110;
+        Integer testPort = 5000;
 
         FakeServerSocket socket = new FakeServerSocket(testPort);
         HostServer host = new HostServer(socket);
