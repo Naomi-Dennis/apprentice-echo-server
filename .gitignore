@@ -2,7 +2,8 @@
 .idea/
 .DS_Store
 /build/
-
+out/
+src/main/java/META-INF
 # Ignore Gradle GUI config
 gradle-app.setting
 
