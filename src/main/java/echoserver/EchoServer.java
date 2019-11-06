@@ -13,6 +13,8 @@ public class EchoServer {
         while(true) {
             ClientConnection connectedClient = hostServer.listenForClientConnection();
             echo(connectedClient);
+            connectedClient.write("Connection closing...");
+            connectedClient.close();
         }
     }
 
@@ -25,7 +27,6 @@ public class EchoServer {
         final String clientInput = connectedClient.readInput();
         logger.log("Client Output: " + clientInput);
         connectedClient.write("=> " + clientInput);
-        connectedClient.write("Connection closing...");
-        connectedClient.close();
+
     }
 }
