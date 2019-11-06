@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class HostServer{
+public class HostServer implements AutoCloseable{
     Integer port;
 
     public HostServer(ServerSocket socket) {
@@ -13,7 +13,7 @@ public class HostServer{
         this.port = socket.getLocalPort();
     }
 
-    public ClientConnection listenForConnection() throws IOException {
+    public ClientConnection listenForClientConnection() throws IOException {
         Socket connectedClient = this.socket.accept();
 
         return new ClientConnection(connectedClient);

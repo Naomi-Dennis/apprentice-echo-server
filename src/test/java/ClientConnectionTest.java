@@ -2,59 +2,45 @@ import echoserver.ClientConnection;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 class FakeSocket extends Socket{
     public String input = "";
+    public ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+    public FakeSocket(){
+    }
 
     public InputStream getInputStream(){
-        FakeInputStream inputStream = new FakeInputStream();
-        inputStream.setInput(input);
-        return inputStream;
+        ByteArrayInputStream is = new ByteArrayInputStream(input.getBytes());
+        return is;
     }
 
     public OutputStream getOutputStream(){
-        return new FakeOutputStream();
+        return this.os;
     }
 }
 
 public class ClientConnectionTest {
 
     @Test
-    public void whenTheClientIsPromptedForInputReturnInputAsString() throws IOException {
+    public void whenTheClientReadsInput_returnInputAsString() throws IOException {
         FakeSocket socket = new FakeSocket();
         socket.input = "Input";
         ClientConnection cs = new ClientConnection(socket);
-
-        Assert.assertEquals(cs.promptInput(), "Input");
+        String readInput = cs.readInput();
+        Assert.assertEquals(readInput, "Input");
     }
 
+
     @Test
-    public void whenTheLastSavedInputIsReadReturnItAsAString() throws Exception{
+    public void whenTheClient() throws IOException{
         FakeSocket socket = new FakeSocket();
-        socket.input = "5";
         ClientConnection cs = new ClientConnection(socket);
-        cs.promptInput();
+        cs.write("=> 3");
 
-        Assert.assertEquals(cs.readLastSavedInput(), "5");
-    }
-
-    @Test
-    public void canReturnItsOutputStream() throws IOException{
-        FakeSocket socket = new FakeSocket();
-        ClientConnection clientConnection = new ClientConnection(socket);
-
-        Assert.assertTrue(clientConnection.getOutputStream() instanceof OutputStream);
-    }
-
-    @Test
-    public void whenTheConnectionIsNotOpenReturnFalse() throws IOException{
-        FakeSocket s = new FakeSocket();
-        ClientConnection cs = new ClientConnection(s);
-
-        Assert.assertFalse(cs.isClosed());
+        String clientEchoMessage = socket.getOutputStream().toString();
+        Assert.assertEquals(clientEchoMessage, "=> 3\n");
     }
 }

@@ -10,7 +10,7 @@ public class Console {
     }
 
     public void outputToScreen(String message){
-        this.printStream.print(message);
+        this.printStream.println(message);
     }
 
 
