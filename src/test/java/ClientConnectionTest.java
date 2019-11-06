@@ -3,6 +3,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 class FakeSocket extends Socket{
@@ -44,4 +45,53 @@ public class ClientConnectionTest {
         Assert.assertEquals(clientEchoMessage, "=> 3\n");
     }
 
+    @Test
+    public void whenTheClientConnectionCloses_theSocketIsClosed() throws IOException{
+        Integer testPort = 5000;
+        ServerSocket host = new ServerSocket(testPort);
+        Socket clientSocket = new Socket();
+        ClientConnection cc = new ClientConnection(clientSocket);
+
+        clientSocket.connect(host.getLocalSocketAddress());
+        host.accept();
+        cc.close();
+
+        Assert.assertTrue("Client is not closed.", clientSocket.isClosed());
+
+        host.close();
+    }
+
+    @Test
+    public void whenTheClientConnectionCloses_theSocketCannotBeWrittenTo() throws IOException{
+        Integer testPort = 5000;
+        ServerSocket host = new ServerSocket(testPort);
+        Socket clientSocket = new Socket();
+        ClientConnection cc = new ClientConnection(clientSocket);
+
+        clientSocket.connect(host.getLocalSocketAddress());
+        host.accept();
+
+        cc.close();
+
+        Assert.assertTrue( clientSocket.isOutputShutdown());
+
+        host.close();
+    }
+
+    @Test
+    public void whenTheClientConnectionCloses_theSocketCannotBeReadFrom() throws IOException{
+        Integer testPort = 5000;
+        ServerSocket host = new ServerSocket(testPort);
+        Socket clientSocket = new Socket();
+        ClientConnection cc = new ClientConnection(clientSocket);
+
+        clientSocket.connect(host.getLocalSocketAddress());
+        host.accept();
+
+        cc.close();
+
+        Assert.assertTrue( clientSocket.isInputShutdown());
+
+        host.close();
+    }
 }

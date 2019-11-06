@@ -20,7 +20,12 @@ public class ClientConnection {
         socket.getOutputStream().write(message.getBytes());
     }
 
-    public void close() throws IOException { this.socket.close(); }
+    public void close() throws IOException {
+        this.socket.shutdownOutput();
+        this.socket.shutdownInput();
+        this.socket.close();
+    }
+
     private
 
     Socket socket;
