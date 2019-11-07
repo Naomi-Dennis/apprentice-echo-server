@@ -4,3 +4,16 @@ jdk: oraclejdk11
 
 script:
         - ./gradlew build && ./gradlew test
+
+deploy:
+        - provider: codedeploy
+          access_key_id: "AKIAJY75NRQXQLVJJLOQ"
+          secret_access_key: "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"
+          bucket: "S3 Bucket"
+          application: echoserver
+          deployment_group: echoserver
+          region: "us-east-2"
+          wait_until_deployed: true
+          revision_type: github
+on:
+        branch: master
