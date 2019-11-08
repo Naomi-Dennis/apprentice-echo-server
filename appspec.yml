@@ -5,3 +5,7 @@ files:
     destination: /home/ec2-user
   - source: ./deploy/deploy_server.sh
     destination: /home/ec2-user
+hooks:
+  ApplicationStart:
+    - location: deploy_server.sh
+    - runas: ec2-user
