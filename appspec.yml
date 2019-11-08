@@ -1,5 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /EchoServer.jar
-    destination: /home/*
+  - source: ./deploy/EchoServer.jar
+    destination: /home/ec2-user
+  - source: ./deploy/deploy_server.sh
+    destination: /home/ec2-user

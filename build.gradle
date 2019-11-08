@@ -16,7 +16,7 @@ dependencies {
 }
 
 jar{
-    libsDirName='../'
+    libsDirName='../deploy/'
     archivesBaseName="EchoServer"
     manifest {
         attributes 'Main-Class': 'echoserver.EchoServerProgram',
