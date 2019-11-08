@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: ./deploy/EchoServer.jar
-    destination: /
+    destination: /opt
   - source: ./deploy/deploy_server.sh
-    destination: /
+    destination: /opt
 hooks:
   ApplicationStart:
-    - location: deploy_server.sh
+    - location: /opt/deploy_server.sh
