@@ -2,14 +2,10 @@ package echoserver;
 
 import java.io.IOException;
 
-public class EchoServer {
+public class EchoServerService {
 
-    Logger logger;
-    private
 
-    HostServer hostServer;
-
-    public EchoServer(HostServer hostServer, Logger logger) {
+    public EchoServerService(HostServer hostServer, Logger logger) {
         this.hostServer = hostServer;
         this.logger = logger;
     }
@@ -23,14 +19,18 @@ public class EchoServer {
         }
     }
 
-    void echo(ClientConnection connectedClient) throws IOException {
+    private HostServer hostServer;
+    private Logger logger;
+
+    private void echo(ClientConnection connectedClient) throws IOException {
         final String clientInput = connectedClient.readInput();
-        logger.log("Client Output: " + clientInput);
+        logger.log("Client Input: " + clientInput);
         connectedClient.write("=> " + clientInput);
     }
 
-    void closeClient(ClientConnection connectedClient) throws IOException {
+    private void closeClient(ClientConnection connectedClient) throws IOException {
         connectedClient.write("Connection closing...");
         connectedClient.close();
     }
+
 }

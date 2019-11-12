@@ -1,3 +1,5 @@
+package echoserver;
+
 import echoserver.CommandLinePortValidator;
 import org.junit.Assert;
 import org.junit.Test;

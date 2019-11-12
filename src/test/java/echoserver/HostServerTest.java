@@ -1,4 +1,5 @@
-import echoserver.HostServer;
+package echoserver;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,7 +10,7 @@ import java.net.Socket;
 
 class FakeServerSocket extends ServerSocket {
     public FakeServerSocket(Integer port) throws IOException {
-
+        super(port);
     }
 
     public Socket accept() {

@@ -1,4 +1,5 @@
-import echoserver.ClientConnection;
+package echoserver;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,9 +14,12 @@ class FakeSocket extends Socket {
     public FakeSocket() {
     }
 
+    public FakeSocket(String input){
+        this.input = input;
+    }
+
     public InputStream getInputStream() {
-        ByteArrayInputStream is = new ByteArrayInputStream(input.getBytes());
-        return is;
+         return new ByteArrayInputStream(input.getBytes());
     }
 
     public OutputStream getOutputStream() {

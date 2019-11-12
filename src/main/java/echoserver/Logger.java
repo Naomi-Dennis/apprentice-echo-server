@@ -1,11 +1,11 @@
 package echoserver;
 
 public class Logger {
-    public Logger(Console console){
+    public Logger(Console console) {
         this.console = console;
     }
 
-    public void log(String message){
+    public void log(String message) {
         console.outputToScreen(message);
     }
 

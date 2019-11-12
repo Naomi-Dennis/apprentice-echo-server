@@ -4,7 +4,8 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientConnection {
-    public ClientConnection(){};
+    public ClientConnection() {
+    }
 
     public ClientConnection(Socket socket) {
         this.socket = socket;
@@ -30,7 +31,7 @@ public class ClientConnection {
 
     Socket socket;
 
-    String convertInputStreamToString(InputStream is) throws IOException{
+    String convertInputStreamToString(InputStream is) throws IOException {
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(is));
         return bufReader.readLine();
     }

@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class HostServer implements AutoCloseable{
+public class HostServer implements AutoCloseable {
     Integer port;
 
     public HostServer(ServerSocket socket) {
@@ -19,11 +19,11 @@ public class HostServer implements AutoCloseable{
         return new ClientConnection(connectedClient);
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         this.socket.close();
     }
 
-    public Boolean isClosed(){
+    public Boolean isClosed() {
         return this.socket.isClosed();
     }
 
