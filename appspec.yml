@@ -7,4 +7,4 @@ files:
     destination: /opt
 hooks:
   ApplicationStart:
-    - location: /opt/deploy_server.sh
+  - location: deploy_server.sh
