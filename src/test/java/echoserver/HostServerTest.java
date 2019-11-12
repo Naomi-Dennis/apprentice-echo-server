@@ -20,7 +20,7 @@ class FakeServerSocket extends ServerSocket {
 public class HostServerTest {
 
     @Test
-    public void canAcceptClientConnection() throws IOException{
+    public void canAcceptClientConnection() throws IOException {
         Integer testPort = 5000;
         ServerSocket hostSocket = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
@@ -36,7 +36,7 @@ public class HostServerTest {
     }
 
     @Test
-    public void hostServerIsOpenedOnASpecifiedPort() throws IOException{
+    public void hostServerIsOpenedOnASpecifiedPort() throws IOException {
         Integer specifiedPort = 5000;
         ServerSocket hostSocket = new ServerSocket(specifiedPort);
         HostServer host = new HostServer(hostSocket);

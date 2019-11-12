@@ -5,7 +5,7 @@ import org.junit.Test;
 public class CommandLinePortValidatorTest {
 
     @Test
-    public void whenAPortIsGivenInProperFormat_returnPortAsInteger(){
+    public void whenAPortIsGivenInProperFormat_returnPortAsInteger() {
         String[] portCommand = {"-p", "1000"};
 
         CommandLinePortValidator validator = new CommandLinePortValidator();
@@ -15,7 +15,7 @@ public class CommandLinePortValidatorTest {
     }
 
     @Test
-    public void whenThePortCommandIsIncomplete_returnFiveThousand(){
+    public void whenThePortCommandIsIncomplete_returnFiveThousand() {
         String[] portCommand = {"-p"};
         CommandLinePortValidator validator = new CommandLinePortValidator();
         Integer port = validator.parsePort(portCommand);
@@ -24,7 +24,7 @@ public class CommandLinePortValidatorTest {
     }
 
     @Test
-    public void whenThePortCommandHasInvalidCharacters_returnFiveThousand(){
+    public void whenThePortCommandHasInvalidCharacters_returnFiveThousand() {
         String[] portCommand = {"-p", "jkljlkjlkjlk"};
         CommandLinePortValidator validator = new CommandLinePortValidator();
         Integer port = validator.parsePort(portCommand);
@@ -33,7 +33,7 @@ public class CommandLinePortValidatorTest {
     }
 
     @Test
-    public void whenThePortCommandIsNotGiven_returnFiveThousand(){
+    public void whenThePortCommandIsNotGiven_returnFiveThousand() {
         String[] portCommand = {};
         CommandLinePortValidator validator = new CommandLinePortValidator();
         Integer port = validator.parsePort(portCommand);

@@ -1,32 +1,24 @@
 package echoserver;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 
 public class EchoServer {
+    public static void main(String[] args) throws IOException {
 
-    public EchoServer(HostServer hostServer, Logger logger) {
-        this.hostServer = hostServer;
-        this.logger = logger;
-    }
+        CommandLinePortValidator validator = new CommandLinePortValidator();
+        final Integer SPECIFIED_PORT = validator.parsePort(args);
 
-    public void start() throws IOException {
-        while(true) {
-            ClientConnection connectedClient = hostServer.listenForClientConnection();
-            echo(connectedClient);
-            connectedClient.write("Connection closing...");
-            connectedClient.close();
+        ServerSocket hostSocket = new ServerSocket(SPECIFIED_PORT);
+        HostServer hostServer = new HostServer(hostSocket);
+        Logger logger = new Logger(new Console(System.out));
+        EchoServerService echoServerService = new EchoServerService(hostServer, logger);
+        logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
+
+        try {
+            echoServerService.start();
+        } finally {
+            hostServer.close();
         }
-    }
-
-    private
-
-    HostServer hostServer;
-    Logger logger;
-
-    void echo(ClientConnection connectedClient) throws IOException {
-        final String clientInput = connectedClient.readInput();
-        logger.log("Client Output: " + clientInput);
-        connectedClient.write("=> " + clientInput);
-
     }
 }
