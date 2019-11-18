@@ -1,6 +1,8 @@
 package echoserver;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.util.ArrayList;
 
 public class EchoServerService {
 
@@ -14,23 +16,18 @@ public class EchoServerService {
         ClientConnection connectedClient;
 
         while ((connectedClient = hostServer.listenForClientConnection()) != null) {
-            echo(connectedClient);
-            closeClient(connectedClient);
+            Thread newConnection = new Thread(new EchoServerServiceThread(connectedClient, logger));
+            clients.add(connectedClient);
+            newConnection.start();
         }
+    }
+
+    public void stop() throws IOException {
+        clients.forEach((client) -> client.close());
+        hostServer.close();
     }
 
     private HostServer hostServer;
     private Logger logger;
-
-    private void echo(ClientConnection connectedClient) throws IOException {
-        final String clientInput = connectedClient.readInput();
-        logger.log("Client Input: " + clientInput);
-        connectedClient.write("=> " + clientInput);
-    }
-
-    private void closeClient(ClientConnection connectedClient) throws IOException {
-        connectedClient.write("Connection closing...");
-        connectedClient.close();
-    }
-
+    private ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
 }

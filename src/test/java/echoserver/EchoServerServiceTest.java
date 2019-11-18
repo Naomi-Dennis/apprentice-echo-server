@@ -14,16 +14,12 @@ import java.util.ArrayList;
 
 public class EchoServerServiceTest {
 
-    ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
-    FakeSocket clientSocket;
-    HostServer host;
-    Logger echoLogger;
-    ByteArrayOutputStream screenOutput;
-    EchoServerService testServer;
-    String clientInput = "my input";
+    private ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
+    private EchoServerService testServer;
+    private ServerSocket hostSocket;
 
     class FakeHostServer extends HostServer {
-        public FakeHostServer(ServerSocket hostSocket) {
+        FakeHostServer(ServerSocket hostSocket) {
             super(hostSocket);
         }
 
@@ -32,56 +28,61 @@ public class EchoServerServiceTest {
         }
     }
 
+    class FakeClientConnection extends ClientConnection{
+         FakeClientConnection(FakeSocket socket){
+            super(socket);
+        }
+    }
+
     @Before
     public void setupService() throws IOException {
-        clientSocket = new FakeSocket(clientInput);
-        ServerSocket hostSocket = new ServerSocket(5000);
+        hostSocket = new ServerSocket(5000);
+        FakeHostServer host = new FakeHostServer(hostSocket);
 
-        clients.add(new ClientConnection(clientSocket));
-        clients.add(null);
-
-        host = new FakeHostServer(hostSocket);
-
-        clientSocket.connect(hostSocket.getLocalSocketAddress());
-
-        screenOutput = new ByteArrayOutputStream();
-        echoLogger = new Logger(new Console(screenOutput));
+        Logger echoLogger = new Logger(new Console(new ByteArrayOutputStream()));
         testServer = new EchoServerService(host, echoLogger);
     }
 
-    @After
-    public void tearDownHostServer() throws IOException {
-        host.close();
+    @Test
+    public void whenTheServerIsRunning_multipleClientsCanConnectAtOnce() throws IOException{
+        FakeSocket clientASocket = new FakeSocket();
+        FakeSocket clientBSocket = new FakeSocket();
+        FakeClientConnection clientA = new FakeClientConnection(clientASocket);
+        FakeClientConnection clientB = new FakeClientConnection(clientBSocket);
+
+        clientASocket.connect(hostSocket.getLocalSocketAddress());
+        clientBSocket.connect(hostSocket.getLocalSocketAddress());
+
+        clients.add(clientA);
+        clients.add(clientB);
+        clients.add(null);
+
+        testServer.start();
+        Boolean allClientsConnected =  clientASocket.isConnected() && clientBSocket.isConnected();
+
+        Assert.assertTrue(allClientsConnected);
+        testServer.stop();
     }
 
     @Test
-    public void whenTheServerStarts_clientInputIsLogged() throws IOException {
+    public void whenTheServerIsStopped_itsSocketIsClosedAndNothingIsConnectedToIt() throws IOException{
+        FakeSocket clientASocket = new FakeSocket();
+        FakeSocket clientBSocket = new FakeSocket();
+        FakeClientConnection clientA = new FakeClientConnection(clientASocket);
+        FakeClientConnection clientB = new FakeClientConnection(clientBSocket);
+
+        clientASocket.connect(hostSocket.getLocalSocketAddress());
+        clientBSocket.connect(hostSocket.getLocalSocketAddress());
+
+        clients.add(clientA);
+        clients.add(clientB);
+        clients.add(null);
+
         testServer.start();
-        String echoLoggerContent = screenOutput.toString();
+        testServer.stop();
 
-        Assert.assertTrue(echoLoggerContent.contains(clientInput));
-    }
+        Boolean allClientsClosed =  clientASocket.isClosed() && clientBSocket.isClosed();
 
-    @Test
-    public void whenTheClientIsConnected_theClientInputIsWrittenToTheClient() throws IOException{
-        testServer.start();
-        String clientConnection = clientSocket.getOutputStream().toString();
-
-        Assert.assertTrue(clientConnection.contains(clientInput));
-    }
-
-    @Test
-    public void whenTheClientIsDisconnecting_aClosingMessageIsWrittenToTheClient() throws IOException{
-        testServer.start();
-        String clientConnection = clientSocket.getOutputStream().toString();
-
-        Assert.assertTrue(clientConnection.contains("closing"));
-    }
-
-    @Test
-    public void whenTheClientEchosItsInput_closeTheConnection() throws IOException{
-        testServer.start();
-
-        Assert.assertTrue(clientSocket.isClosed());
+        Assert.assertTrue("Client A: " + clientASocket.isClosed() + ", Client B: " + clientBSocket.isClosed(), allClientsClosed);
     }
 }

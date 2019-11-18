@@ -18,7 +18,7 @@ public class EchoServer {
         try {
             echoServerService.start();
         } finally {
-            hostServer.close();
+            echoServerService.stop();
         }
     }
 }
