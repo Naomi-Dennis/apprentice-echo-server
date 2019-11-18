@@ -98,4 +98,23 @@ public class ClientConnectionTest {
 
         host.close();
     }
+
+
+    @Test
+    public void whenTheClientConnectionCloses_EOFIsReached() throws IOException{
+        Integer testPort = 5000;
+        ServerSocket host = new ServerSocket(testPort);
+        Socket clientSocket = new Socket();
+        ClientConnection cc = new ClientConnection(clientSocket);
+
+        clientSocket.connect(host.getLocalSocketAddress());
+        host.accept();
+
+        cc.close();
+
+        Assert.assertTrue(cc.EOFReached);
+
+        host.close();
+    }
+
 }
