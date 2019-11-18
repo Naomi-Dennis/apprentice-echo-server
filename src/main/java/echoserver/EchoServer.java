@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 public class EchoServer {
     public static void main(String[] args) throws IOException {
 
-        CommandLinePortValidator validator = new CommandLinePortValidator();
+        CommandLinePortValidator validator = new CommandLinePortValidator(5000);
         final Integer SPECIFIED_PORT = validator.parsePort(args);
 
         ServerSocket hostSocket = new ServerSocket(SPECIFIED_PORT);
