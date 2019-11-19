@@ -8,9 +8,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EchoServerServiceThreadTest {
+public class EchoServerServiceRunnableTest {
 
-    private EchoServerServiceThread serverThread;
+    private EchoServerServiceRunnable serverThread;
     private FakeClientConnection client;
 
     private ArrayList<StringAsBytes> inputs = new ArrayList<StringAsBytes>();
@@ -47,7 +47,7 @@ public class EchoServerServiceThreadTest {
 
     @Test
     public void whenTheServerStarts_clientInputIsLogged() throws IOException {
-        serverThread = new EchoServerServiceThread(client, echoLogger);
+        serverThread = new EchoServerServiceRunnable(client, echoLogger);
         serverThread.run();
         String echoLoggerContent = screenOutput.toString();
 
@@ -56,7 +56,7 @@ public class EchoServerServiceThreadTest {
 
     @Test
     public void whenTheClientIsConnected_theClientInputIsWrittenToTheClientConnection() throws IOException{
-        serverThread = new EchoServerServiceThread(client, echoLogger);
+        serverThread = new EchoServerServiceRunnable(client, echoLogger);
         serverThread.run();
         String clientConnectionData = clientSocket.getOutputStream().toString();
 
@@ -65,7 +65,7 @@ public class EchoServerServiceThreadTest {
 
     @Test
     public void whenTheClientIsDisconnecting_aClosingMessageIsWrittenToTheClient() throws IOException{
-        serverThread = new EchoServerServiceThread(client, echoLogger);
+        serverThread = new EchoServerServiceRunnable(client, echoLogger);
         serverThread.run();
         String clientConnectionData = clientSocket.getOutputStream().toString();
 
@@ -74,7 +74,7 @@ public class EchoServerServiceThreadTest {
 
     @Test
     public void whenTheClientEchosItsInput_closeTheConnection() throws IOException{
-        serverThread = new EchoServerServiceThread(client, echoLogger);
+        serverThread = new EchoServerServiceRunnable(client, echoLogger);
         serverThread.run();
 
         Assert.assertTrue(client.isClosed());

@@ -2,9 +2,9 @@ package echoserver;
 
 import java.io.IOException;
 
-public class EchoServerServiceThread implements Runnable {
+public class EchoServerServiceRunnable implements Runnable {
 
-    EchoServerServiceThread(ConnectionDataStream client, Logger logger){
+    EchoServerServiceRunnable(ConnectionDataStream client, Logger logger){
         this.client = client;
         this.logger = logger;
     }
@@ -15,16 +15,13 @@ public class EchoServerServiceThread implements Runnable {
                 echo(client);
             }
             client.write("Connection closing...");
+
         } catch (IOException e) {
             logger.log("Error: I/O Interrupted");
         } finally {
             logger.log("Client Disconnected");
             client.close();
         }
-    }
-
-    public void stop(){
-        client.close();
     }
 
     private Logger logger;
