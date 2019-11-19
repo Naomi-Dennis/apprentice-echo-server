@@ -18,14 +18,14 @@ class FakeServerSocket extends ServerSocket {
     }
 }
 
-public class HostServerTest {
+public class HostTest {
 
     @Test
     public void canAcceptClientConnection() throws IOException {
         Integer testPort = 5000;
         ServerSocket hostSocket = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
-        HostServer host = new HostServer(hostSocket);
+        Host host = new Host(hostSocket);
 
         clientSocket.connect(hostSocket.getLocalSocketAddress());
         host.listenForClientConnection();
@@ -40,7 +40,7 @@ public class HostServerTest {
     public void hostServerIsOpenedOnASpecifiedPort() throws IOException {
         Integer specifiedPort = 5000;
         ServerSocket hostSocket = new ServerSocket(specifiedPort);
-        HostServer host = new HostServer(hostSocket);
+        Host host = new Host(hostSocket);
         String hostAddress = hostSocket.getLocalSocketAddress().toString();
 
         Assert.assertTrue(hostAddress.contains(specifiedPort.toString()));
@@ -54,7 +54,7 @@ public class HostServerTest {
         Integer testPort = 5000;
 
         FakeServerSocket socket = new FakeServerSocket(testPort);
-        HostServer host = new HostServer(socket);
+        Host host = new Host(socket);
 
         host.listenForClientConnection();
         host.close();
