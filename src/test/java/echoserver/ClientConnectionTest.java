@@ -7,32 +7,33 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-class FakeSocket extends Socket {
-    public String input = "";
-    public ByteArrayOutputStream os = new ByteArrayOutputStream();
+interface StringAsBytes{
+    public byte[] getBytes();
+}
 
-    public FakeSocket() {
+class RegularString implements StringAsBytes {
+    String content;
+    RegularString(String content){
+        this.content = content;
     }
-
-    public FakeSocket(String input){
-        this.input = input;
-    }
-
-    public InputStream getInputStream() {
-         return new ByteArrayInputStream(input.getBytes());
-    }
-
-    public OutputStream getOutputStream() {
-        return this.os;
+    public byte[] getBytes(){
+        return this.content.getBytes();
     }
 }
+
+class NullString implements StringAsBytes {
+    public byte[] getBytes(){
+        return new byte[0];
+    }
+}
+
+
 
 public class ClientConnectionTest {
 
     @Test
     public void whenTheClientReadsInput_returnInputAsString() throws IOException {
-        FakeSocket socket = new FakeSocket();
-        socket.input = "Input";
+        FakeSocket socket = new FakeSocket("Input");
         ClientConnection cs = new ClientConnection(socket);
         String readInput = cs.readInput();
         Assert.assertEquals(readInput, "Input");
@@ -54,11 +55,11 @@ public class ClientConnectionTest {
         Integer testPort = 5000;
         ServerSocket host = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
-        ClientConnection cc = new ClientConnection(clientSocket);
+        ClientConnection client = new ClientConnection(clientSocket);
 
         clientSocket.connect(host.getLocalSocketAddress());
         host.accept();
-        cc.close();
+        client.close();
 
         Assert.assertTrue("Client is not closed.", clientSocket.isClosed());
 
@@ -70,12 +71,12 @@ public class ClientConnectionTest {
         Integer testPort = 5000;
         ServerSocket host = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
-        ClientConnection cc = new ClientConnection(clientSocket);
+        ClientConnection client = new ClientConnection(clientSocket);
 
         clientSocket.connect(host.getLocalSocketAddress());
         host.accept();
 
-        cc.close();
+        client.close();
 
         Assert.assertTrue(clientSocket.isOutputShutdown());
 
@@ -87,12 +88,12 @@ public class ClientConnectionTest {
         Integer testPort = 5000;
         ServerSocket host = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
-        ClientConnection cc = new ClientConnection(clientSocket);
+        ClientConnection client = new ClientConnection(clientSocket);
 
         clientSocket.connect(host.getLocalSocketAddress());
         host.accept();
 
-        cc.close();
+        client.close();
 
         Assert.assertTrue(clientSocket.isInputShutdown());
 
@@ -105,14 +106,14 @@ public class ClientConnectionTest {
         Integer testPort = 5000;
         ServerSocket host = new ServerSocket(testPort);
         Socket clientSocket = new Socket();
-        ClientConnection cc = new ClientConnection(clientSocket);
+        ClientConnection client = new ClientConnection(clientSocket);
 
         clientSocket.connect(host.getLocalSocketAddress());
         host.accept();
 
-        cc.close();
+        client.close();
 
-        Assert.assertTrue(cc.EOFReached);
+        Assert.assertTrue(client.detectEOF());
 
         host.close();
     }

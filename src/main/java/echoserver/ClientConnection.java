@@ -3,7 +3,7 @@ package echoserver;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientConnection {
+public class ClientConnection implements ConnectionDataStream {
 
     public ClientConnection(Socket socket) {
         this.socket = socket;
@@ -27,11 +27,12 @@ public class ClientConnection {
         }catch(IOException ignored) {}
     }
 
-    boolean EOFReached = false;
+    public boolean detectEOF() {
+        return EOFReached;
+    }
 
-    private
-
-    Socket socket;
+    private Socket socket;
+    private boolean EOFReached = false;
 
     private String convertInputStreamToString(InputStream is) throws IOException {
         BufferedReader bufReader = new BufferedReader(new InputStreamReader(is));
