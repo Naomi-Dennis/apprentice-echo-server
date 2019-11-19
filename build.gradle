@@ -19,7 +19,7 @@ jar{
     libsDirName='../'
     archivesBaseName="EchoServer"
     manifest {
-        attributes 'Main-Class': 'echoserver.EchoServerProgram',
+        attributes 'Main-Class': 'echoserver.EchoServer',
                    'Class-Path': '../src/main/java/echoserver/'
     }
 
