@@ -1,33 +1,38 @@
 package echoserver;
 
 import java.io.IOException;
-import java.net.SocketException;
-import java.util.ArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class EchoServerService {
 
 
-    public EchoServerService(HostServer hostServer, Logger logger) {
+    public EchoServerService(ConnectionHub hostServer, Logger logger, ThreadPoolExecutor connectionThreadSpool) {
         this.hostServer = hostServer;
         this.logger = logger;
+        this.connectionThreadSpool = connectionThreadSpool;
     }
 
     public void start() throws IOException {
-        ClientConnection connectedClient;
+        ConnectionDataStream connectedClient;
 
         while ((connectedClient = hostServer.listenForClientConnection()) != null) {
-            Thread newConnection = new Thread(new EchoServerServiceThread(connectedClient, logger));
-            clients.add(connectedClient);
-            newConnection.start();
+               connectionThreadSpool.execute(new EchoServerServiceRunnable(connectedClient, logger));
         }
     }
 
     public void stop() throws IOException {
-        clients.forEach((client) -> client.close());
+        connectionThreadSpool.shutdownNow();
+
+        try {
+            connectionThreadSpool.awaitTermination(15, TimeUnit.SECONDS);
+        } catch(InterruptedException ignored){}
+
         hostServer.close();
     }
 
-    private HostServer hostServer;
+    private ConnectionHub hostServer;
     private Logger logger;
-    private ArrayList<ClientConnection> clients = new ArrayList<ClientConnection>();
+    private ThreadPoolExecutor connectionThreadSpool;
 }
