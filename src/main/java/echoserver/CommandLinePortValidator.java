@@ -3,7 +3,8 @@ package echoserver;
 import java.util.regex.Pattern;
 
 public class CommandLinePortValidator {
-    public CommandLinePortValidator() {
+    public CommandLinePortValidator(Integer defaultPort) {
+        this.defaultPort = defaultPort;
     }
 
     public Integer parsePort(String[] command) {
@@ -11,7 +12,7 @@ public class CommandLinePortValidator {
             return Integer.parseInt(command[1]);
         }
 
-        return 5000;
+        return defaultPort;
     }
 
     private Boolean validate(String[] command) {
@@ -19,5 +20,7 @@ public class CommandLinePortValidator {
                 && command[0].equals("-p")
                 && Pattern.matches("[0-9]+", command[1]);
     }
+
+    private Integer defaultPort;
 }
 

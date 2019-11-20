@@ -1,41 +1,45 @@
+package echoserver;
+
 import echoserver.CommandLinePortValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class CommandLinePortValidatorTest {
 
+    Integer defaultPort = 5000;
+
     @Test
-    public void whenAPortIsGivenInProperFormat_returnPortAsInteger(){
+    public void whenAPortIsGivenInProperFormat_returnPortAsInteger() {
         String[] portCommand = {"-p", "1000"};
 
-        CommandLinePortValidator validator = new CommandLinePortValidator();
+        CommandLinePortValidator validator = new CommandLinePortValidator(defaultPort);
         Integer port = validator.parsePort(portCommand);
 
         Assert.assertTrue(port.equals(1000));
     }
 
     @Test
-    public void whenThePortCommandIsIncomplete_returnFiveThousand(){
+    public void whenThePortCommandIsIncomplete_returnFiveThousand() {
         String[] portCommand = {"-p"};
-        CommandLinePortValidator validator = new CommandLinePortValidator();
+        CommandLinePortValidator validator = new CommandLinePortValidator(defaultPort);
         Integer port = validator.parsePort(portCommand);
 
         Assert.assertTrue(port.equals(5000));
     }
 
     @Test
-    public void whenThePortCommandHasInvalidCharacters_returnFiveThousand(){
+    public void whenThePortCommandHasInvalidCharacters_returnFiveThousand() {
         String[] portCommand = {"-p", "jkljlkjlkjlk"};
-        CommandLinePortValidator validator = new CommandLinePortValidator();
+        CommandLinePortValidator validator = new CommandLinePortValidator(defaultPort);
         Integer port = validator.parsePort(portCommand);
 
         Assert.assertTrue(port.equals(5000));
     }
 
     @Test
-    public void whenThePortCommandIsNotGiven_returnFiveThousand(){
+    public void whenThePortCommandIsNotGiven_returnFiveThousand() {
         String[] portCommand = {};
-        CommandLinePortValidator validator = new CommandLinePortValidator();
+        CommandLinePortValidator validator = new CommandLinePortValidator(defaultPort);
         Integer port = validator.parsePort(portCommand);
 
         Assert.assertTrue(port.equals(5000));
