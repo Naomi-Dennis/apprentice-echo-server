@@ -13,18 +13,17 @@ public class EchoServer {
         final Integer SPECIFIED_PORT = validator.parsePort(args);
 
         ServerSocket hostSocket = new ServerSocket(SPECIFIED_PORT);
-        Host hostServer = new Host(hostSocket);
+        HostConnection hostServer = new HostConnection(hostSocket);
         Logger logger = new Logger(new Console(System.out));
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
-        EchoServerService echoServerService = new EchoServerService(hostServer, logger, threadHandler);
-
+        Server echoServer = new Server(hostServer, logger, threadHandler);
 
         try {
             logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
-            echoServerService.start();
+            echoServer.start();
         } finally {
-            echoServerService.stop();
+            echoServer.stop();
         }
     }
 }
