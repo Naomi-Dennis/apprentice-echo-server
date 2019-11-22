@@ -16,15 +16,7 @@ public class ClientConnection implements ConnectionDataStream {
     public void write(String message) throws IOException {
         message += "\n";
         socket.getOutputStream().write(message.getBytes());
-    }
-
-    public void close() {
-        try {
-            EOFReached = true;
-            this.socket.shutdownOutput();
-            this.socket.shutdownInput();
-            this.socket.close();
-        }catch(IOException ignored) {}
+        socket.getOutputStream().flush();
     }
 
     public boolean detectEOF() {
@@ -35,9 +27,12 @@ public class ClientConnection implements ConnectionDataStream {
     private boolean EOFReached = false;
 
     private String convertInputStreamToString(InputStream is) throws IOException {
-        BufferedReader bufReader = new BufferedReader(new InputStreamReader(is));
-        String inputStreamContent = bufReader.readLine();
-        EOFReached = inputStreamContent == null;
+        final int RAW_DATA_SIZE = Byte.MAX_VALUE * 100;
+        byte[] inputStreamRawData = new byte[RAW_DATA_SIZE];
+
+        is.read(inputStreamRawData);
+        String inputStreamContent = new String(inputStreamRawData).trim();
+
         return inputStreamContent;
     }
 }
