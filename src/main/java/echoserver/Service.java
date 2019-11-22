@@ -1,5 +1,8 @@
 package echoserver;
 
+import server.ConnectionDataStream;
+import server.Logger;
+
 import java.io.IOException;
 
 public class Service implements Runnable {

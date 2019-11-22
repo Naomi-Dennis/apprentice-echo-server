@@ -1,7 +1,8 @@
-package echoserver;
+package server;
 
 import org.junit.Assert;
 import org.junit.Test;
+import server.ClientConnection;
 
 import java.io.*;
 import java.net.Socket;

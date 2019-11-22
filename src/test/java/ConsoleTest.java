@@ -1,8 +1,8 @@
-package echoserver;
-
+import displays.Console;
 import org.junit.Assert;
 import org.junit.Test;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+
 
 
 public class ConsoleTest {
@@ -10,7 +10,7 @@ public class ConsoleTest {
     @Test
     public void canOutputToTheScreen() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        echoserver.Console console = new Console(outputStream);
+        Console console = new Console(outputStream);
 
         console.outputToScreen("Hello World!");
         String screen_output = outputStream.toString();

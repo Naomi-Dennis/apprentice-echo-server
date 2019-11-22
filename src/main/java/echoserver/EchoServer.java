@@ -1,5 +1,8 @@
 package echoserver;
 
+import server.*;
+import displays.Console;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -17,7 +20,8 @@ public class EchoServer {
         Logger logger = new Logger(new Console(System.out));
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
-        Server echoServer = new Server(hostServer, logger, threadHandler);
+
+        Server echoServer = new Server(hostServer, logger, threadHandler, new EchoServiceFactory());
 
         try {
             logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);

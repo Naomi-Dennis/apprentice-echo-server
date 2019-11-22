@@ -1,8 +1,9 @@
-package echoserver;
+package server;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import server.CommandLinePortValidator;
 
 public class CommandLinePortValidatorTest {
 

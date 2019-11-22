@@ -1,4 +1,7 @@
-package echoserver;
+package server;
+
+import echoserver.*;
+import displays.Console;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -72,7 +75,7 @@ public class ServerTest {
         Logger echoLogger = new Logger(new Console(new ByteArrayOutputStream()));
         threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
-        testServer = new Server(host, echoLogger, threadHandler);
+        testServer = new Server(host, echoLogger, threadHandler, new EchoServiceFactory());
 
         Integer numberOfClients = 10;
         while (numberOfClients > 0) {

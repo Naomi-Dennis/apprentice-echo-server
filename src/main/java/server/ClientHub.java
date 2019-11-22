@@ -1,9 +1,8 @@
-package echoserver;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 
 
 public class ClientHub implements ConnectionHub {

@@ -3,6 +3,10 @@ package echoserver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import server.ConnectionDataStream;
+import server.Logger;
+
+import displays.Console;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ public class ServerRunnableTest {
 
     private String clientInput = "client input";
 
-    class FakeClientConnection implements ConnectionDataStream{
+    class FakeClientConnection implements ConnectionDataStream {
         String currentInput;
         FakeClientConnection(){
         }
