@@ -6,10 +6,10 @@ import java.net.Socket;
 import java.sql.Connection;
 
 
-public class HostConnection implements ConnectionHub {
+public class ClientHub implements ConnectionHub {
     Integer port;
 
-    public HostConnection(ServerSocket socket) {
+    public ClientHub(ServerSocket socket) {
         this.socket = socket;
         this.port = socket.getLocalPort();
     }

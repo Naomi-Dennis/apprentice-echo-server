@@ -8,14 +8,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class HostConnectionTest {
+public class ClientHubTest {
 
     private int defaultPort = 5000;
     @Test
     public void canAcceptClientConnection() throws IOException {
         ServerSocket hostSocket = new ServerSocket(defaultPort);
         Socket clientSocket = new Socket();
-        HostConnection host = new HostConnection(hostSocket);
+        ClientHub host = new ClientHub(hostSocket);
 
         clientSocket.connect(hostSocket.getLocalSocketAddress());
         host.listenForClientConnection();
@@ -30,7 +30,7 @@ public class HostConnectionTest {
     public void canCloseConnection() throws IOException {
         ServerSocket hostSocket = new ServerSocket(defaultPort);
         Socket clientSocket = new Socket();
-        HostConnection host = new HostConnection(hostSocket);
+        ClientHub host = new ClientHub(hostSocket);
 
         clientSocket.connect(hostSocket.getLocalSocketAddress());
         host.listenForClientConnection();
