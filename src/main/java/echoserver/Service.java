@@ -1,10 +1,13 @@
 package echoserver;
 
+import server.ConnectionDataStream;
+import server.Logger;
+
 import java.io.IOException;
 
-public class EchoServerServiceRunnable implements Runnable {
+public class Service implements Runnable {
 
-    EchoServerServiceRunnable(ConnectionDataStream client, Logger logger){
+    Service(ConnectionDataStream client, Logger logger){
         this.client = client;
         this.logger = logger;
     }
@@ -15,12 +18,9 @@ public class EchoServerServiceRunnable implements Runnable {
                 echo(client);
             }
             client.write("Connection closing...");
-
+            logger.log("Client Disconnected");
         } catch (IOException e) {
             logger.log("Error: I/O Interrupted");
-        } finally {
-            logger.log("Client Disconnected");
-            client.close();
         }
     }
 

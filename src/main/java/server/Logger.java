@@ -1,5 +1,5 @@
-package echoserver;
-
+package server;
+import displays.Console;
 public class Logger {
     public Logger(Console console) {
         this.console = console;

@@ -1,15 +1,14 @@
-package echoserver;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 
 
-public class Host implements ConnectionHub {
+public class HostConnection implements ConnectionHub {
     Integer port;
 
-    public Host(ServerSocket socket) {
+    public HostConnection(ServerSocket socket) {
         this.socket = socket;
         this.port = socket.getLocalPort();
     }

@@ -1,18 +1,16 @@
-package echoserver;
-
-import echoserver.Console;
+import displays.Console;
 import org.junit.Assert;
 import org.junit.Test;
+import java.io.ByteArrayOutputStream;
 
-import java.io.*;
 
 
 public class ConsoleTest {
 
     @Test
-    public void canOutputToTheScreen() throws IOException {
+    public void canOutputToTheScreen() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        echoserver.Console console = new Console(outputStream);
+        Console console = new Console(outputStream);
 
         console.outputToScreen("Hello World!");
         String screen_output = outputStream.toString();

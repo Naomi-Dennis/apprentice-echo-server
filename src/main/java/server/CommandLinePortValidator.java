@@ -1,4 +1,4 @@
-package echoserver;
+package server;
 
 import java.util.regex.Pattern;
 
@@ -8,11 +8,7 @@ public class CommandLinePortValidator {
     }
 
     public Integer parsePort(String[] command) {
-        if (validate(command)) {
-            return Integer.parseInt(command[1]);
-        }
-
-        return defaultPort;
+       return validate(command) ? Integer.parseInt(command[1]) : defaultPort;
     }
 
     private Boolean validate(String[] command) {

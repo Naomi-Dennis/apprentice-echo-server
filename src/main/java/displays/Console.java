@@ -1,4 +1,4 @@
-package echoserver;
+package displays;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
