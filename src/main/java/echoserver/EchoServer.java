@@ -16,7 +16,7 @@ public class EchoServer {
         final Integer SPECIFIED_PORT = validator.parsePort(args);
 
         ServerSocket hostSocket = new ServerSocket(SPECIFIED_PORT);
-        ClientHub hostServer = new ClientHub(hostSocket);
+        HostConnection hostServer = new HostConnection(hostSocket);
         Logger logger = new Logger(new Console(System.out));
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));

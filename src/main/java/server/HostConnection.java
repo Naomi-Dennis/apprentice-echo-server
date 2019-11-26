@@ -5,10 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class ClientHub implements ConnectionHub {
+public class HostConnection implements ConnectionHub {
     Integer port;
 
-    public ClientHub(ServerSocket socket) {
+    public HostConnection(ServerSocket socket) {
         this.socket = socket;
         this.port = socket.getLocalPort();
     }
