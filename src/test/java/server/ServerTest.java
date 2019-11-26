@@ -68,6 +68,15 @@ public class ServerTest {
         public Socket socket;
     }
 
+
+    ServiceGenerator<ConnectionDataStream, Logger, Runnable> createFakeService(){
+        Runnable fakeService = new Runnable(){
+            public void run(){ }
+        };
+
+        return (ConnectionDataStream client, Logger serverLog) -> fakeService;
+    }
+
     @Before
     public void setupService() throws IOException {
         hostSocket = new ServerSocket(5000);
@@ -75,7 +84,7 @@ public class ServerTest {
         Logger echoLogger = new Logger(new Console(new ByteArrayOutputStream()));
         threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
-        testServer = new Server(host, echoLogger, threadHandler, new EchoServiceFactory());
+        testServer = new Server(host, echoLogger, threadHandler, createFakeService());
 
         Integer numberOfClients = 10;
         while (numberOfClients > 0) {

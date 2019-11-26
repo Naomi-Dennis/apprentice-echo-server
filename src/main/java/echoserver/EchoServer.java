@@ -21,7 +21,7 @@ public class EchoServer {
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
 
-        Server echoServer = new Server(hostServer, logger, threadHandler, new EchoServiceFactory());
+        Server echoServer = new Server(hostServer, logger, threadHandler, createService());
 
         try {
             logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
@@ -29,5 +29,9 @@ public class EchoServer {
         } finally {
             echoServer.stop();
         }
+    }
+
+    private static ServiceGenerator<ConnectionDataStream, Logger, Runnable> createService(){
+        return (ConnectionDataStream client, Logger serverLog) -> new Service(client, serverLog);
     }
 }

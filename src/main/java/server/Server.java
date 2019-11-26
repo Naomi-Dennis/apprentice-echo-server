@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 
 public class Server {
 
-    public Server(ConnectionHub hostServer, Logger logger, ExecutorService connectionThreadSpool, ServiceFactory serviceGenerator) {
+    public Server(ConnectionHub hostServer, Logger logger, ExecutorService connectionThreadSpool, ServiceGenerator<ConnectionDataStream, Logger, Runnable> serviceGenerator) {
         this.hostServer = hostServer;
         this.logger = logger;
         this.connectionThreadSpool = connectionThreadSpool;
@@ -15,7 +15,7 @@ public class Server {
     public void start() throws IOException {
         ConnectionDataStream connectedClient;
         while ((connectedClient = hostServer.listenForClientConnection()) != null) {
-               connectionThreadSpool.execute(serviceGenerator.newRunnable(connectedClient, logger));
+               connectionThreadSpool.execute(serviceGenerator.apply(connectedClient, logger));
         }
     }
 
@@ -26,5 +26,5 @@ public class Server {
     private ConnectionHub hostServer;
     private Logger logger;
     private ExecutorService connectionThreadSpool;
-    private ServiceFactory serviceGenerator;
+    private ServiceGenerator<ConnectionDataStream, Logger, Runnable> serviceGenerator;
 }
