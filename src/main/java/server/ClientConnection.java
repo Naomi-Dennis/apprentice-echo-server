@@ -19,6 +19,9 @@ public class ClientConnection implements ConnectionDataStream {
         socket.getOutputStream().flush();
     }
 
+    public void close() throws IOException{
+        socket.close();
+    }
     public boolean detectEOF() {
         return EOFReached;
     }

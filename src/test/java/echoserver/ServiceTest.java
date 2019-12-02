@@ -9,9 +9,10 @@ import server.Logger;
 import displays.Console;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ServerRunnableTest {
+public class ServiceTest {
 
     private Service serverThread;
     private FakeClientConnection client;
@@ -37,6 +38,7 @@ public class ServerRunnableTest {
             currentInput = inputs.remove(0);
             return currentInput == null;
         }
+        public void close() throws IOException{}
     }
 
     @Before
@@ -50,8 +52,8 @@ public class ServerRunnableTest {
 
     @Test
     public void whenTheServerStarts_clientInputIsLogged() {
-        serverThread = new Service(client, echoLogger);
-        serverThread.run();
+        serverThread = new Service(echoLogger);
+        serverThread.runWith(client);
         String echoLoggerContent = screenOutput.toString();
 
         Assert.assertTrue(screenOutput.toString(), echoLoggerContent.contains(clientInput));
@@ -59,8 +61,8 @@ public class ServerRunnableTest {
 
     @Test
     public void whenTheClientIsConnected_theClientInputIsWrittenToTheClientConnection() {
-        serverThread = new Service(client, echoLogger);
-        serverThread.run();
+        serverThread = new Service(echoLogger);
+        serverThread.runWith(client);
         String clientConnectionData = screenOutput.toString();
 
         Assert.assertTrue("Received Input: " + clientConnectionData, clientConnectionData.contains(clientInput));

@@ -4,18 +4,20 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 public class Server {
-
-    public Server(ConnectionHub hostServer, Logger logger, ExecutorService connectionThreadSpool, ServiceGenerator<ConnectionDataStream, Logger, Runnable> serviceGenerator) {
+    public Server(ConnectionHub hostServer, ExecutorService connectionThreadSpool, Process program ) {
         this.hostServer = hostServer;
-        this.logger = logger;
         this.connectionThreadSpool = connectionThreadSpool;
-        this.serviceGenerator = serviceGenerator;
+        this.process = program;
     }
 
     public void start() throws IOException {
-        ConnectionDataStream connectedClient;
-        while ((connectedClient = hostServer.listenForClientConnection()) != null) {
-               connectionThreadSpool.execute(serviceGenerator.apply(connectedClient, logger));
+        ConnectionDataStream client;
+        while ((client = hostServer.listenForClientConnection()) != null) {
+
+            final ConnectionDataStream connectedClient = client;
+            Runnable program = () -> process.runWith(connectedClient);
+
+            connectionThreadSpool.execute(program);
         }
     }
 
@@ -24,7 +26,6 @@ public class Server {
     }
 
     private ConnectionHub hostServer;
-    private Logger logger;
     private ExecutorService connectionThreadSpool;
-    private ServiceGenerator<ConnectionDataStream, Logger, Runnable> serviceGenerator;
+    private Process process;
 }
