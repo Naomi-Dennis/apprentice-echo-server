@@ -17,10 +17,10 @@ dependencies {
 
 jar{
     libsDirName='../'
-    archivesBaseName="EchoServer"
+    archivesBaseName="HttpServer"
     manifest {
-        attributes 'Main-Class': 'echoserver.EchoServer',
-                   'Class-Path': '../src/main/java/echoserver/'
+        attributes 'Main-Class': 'main.Main',
+                   'Class-Path': '../src/main/java/main'
     }
 
 
