@@ -1,16 +1,29 @@
 package httpserver;
 
+public class HttpRequest{
+    private String route = "";
 
-import java.util.*;
+    HttpRequest(HttpRequestBuilder builder){
+         this.route = builder.route;
+     }
 
-public class HttpRequest implements HttpIncomingMessage{
-    private HashMap<String, String> attributes;
+     public String getRoute(){
+        return route;
+     }
 
-    public HttpRequest(HashMap clientRequestAttributes){
-        this.attributes = clientRequestAttributes;
+
+    public static class HttpRequestBuilder {
+
+        private String route = "";
+
+        public HttpRequestBuilder addRoute(String route){
+            this.route = route;
+            return this;
+        }
+
+        public HttpRequest build(){
+            return new HttpRequest(this);
+        }
     }
 
-    public String getRoute(){
-        return attributes.get("route");
-    }
 }
