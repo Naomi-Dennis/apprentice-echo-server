@@ -26,7 +26,7 @@ public class Main {
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
 
-        HttpServer httpProcess = new HttpServer(new SimpleApplication());
+        HttpServer httpProcess = new HttpServer(new SimpleApplication(), logger);
 
         Server tcpServer = new Server(hostServer, threadHandler, httpProcess);
 

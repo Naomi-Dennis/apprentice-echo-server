@@ -1,11 +1,14 @@
 package httpserver;
 
+import displays.Console;
 import httpApplication.Application;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import server.ConnectionDataStream;
+import server.Connection;
+import server.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class HttpServerTest {
@@ -14,7 +17,7 @@ public class HttpServerTest {
     private HttpServer httpServer;
     private FakeClientConnection client;
 
-    private class FakeClientConnection implements ConnectionDataStream {
+    private class FakeClientConnection implements Connection {
         public void close() {
             isClosed = true;
         }
@@ -45,7 +48,7 @@ public class HttpServerTest {
 
         FakeApplication() {}
 
-        public HttpResponse start(HttpIncomingMessage clientRequest) {
+        public HttpResponse start(HttpRequest clientRequest) {
             receivedRoute = clientRequest.getRoute();
             httpResponse = new HttpResponse();
             httpResponse.status = 200;
@@ -57,7 +60,7 @@ public class HttpServerTest {
     @Before
     public void setup() {
         fakeApp = new FakeApplication();
-        httpServer = new HttpServer(fakeApp);
+        httpServer = new HttpServer(fakeApp, new Logger(new Console(new ByteArrayOutputStream())));
         client = new FakeClientConnection();
     }
 

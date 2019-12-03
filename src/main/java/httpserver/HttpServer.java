@@ -1,48 +1,37 @@
 package httpserver;
 
 import httpApplication.Application;
-import server.ConnectionDataStream;
+import server.Connection;
+import server.Logger;
 import server.Process;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class HttpServer implements Process {
-    public HttpServer(Application application) {
+    public HttpServer(Application application, Logger serverLog) {
         this.application = application;
+        this.serverLog = serverLog;
     }
 
-    public void runWith(ConnectionDataStream client) {
+    public void runWith(Connection client) {
 
         try {
-            HttpIncomingMessage clientRequest = new HttpRequest(parseRawRequest(client.readInput()));
+            String rawRequest = client.readInput();
+            String[] chunkedRawRequest = rawRequest.split(" ");
+
+            HttpRequest clientRequest = new HttpRequest.HttpRequestBuilder()
+                                        .addRoute(chunkedRawRequest[1])
+                                        .build();
+
             HttpResponse applicationResponse = application.start(clientRequest);
 
-            client.write(convertHttpResponseToRawRequest(applicationResponse));
+            client.write(HttpResponseConverter.toString(applicationResponse));
             client.close();
-
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            serverLog.log("I/O Error Encountered");
         }
     }
 
-    private String convertHttpResponseToRawRequest(HttpResponse httpResponse) {
-        StringBuilder response = new StringBuilder();
-        String statusLine = "HTTP/1.1 " + httpResponse.status;
-
-        response.append(statusLine);
-
-        return response.toString();
-    }
-
-    private HashMap<String, String> parseRawRequest(String rawRequest) {
-        String[] chunkedRequest = rawRequest.split(" ");
-        HashMap<String, String> attributes = new HashMap<>();
-
-        attributes.put("route", chunkedRequest[1]);
-
-        return attributes;
-    }
-
-
     private Application application;
+    private Logger serverLog;
 }
