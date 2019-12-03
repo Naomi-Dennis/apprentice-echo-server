@@ -1,6 +1,6 @@
 package echoserver;
 
-import server.ConnectionDataStream;
+import server.Connection;
 import server.Logger;
 import server.Process;
 
@@ -12,7 +12,7 @@ public class Service implements Process {
         logger = serverLog;
     }
 
-    public void runWith(ConnectionDataStream client){
+    public void runWith(Connection client){
         try {
             while (!client.detectEOF()) {
                 echo(client);
@@ -26,7 +26,7 @@ public class Service implements Process {
 
     private Logger logger;
 
-    private void echo(ConnectionDataStream connectedClient) throws IOException {
+    private void echo(Connection connectedClient) throws IOException {
         String clientInput = connectedClient.readInput();
         logger.log("Client Input: " + clientInput);
         connectedClient.write("=> " + clientInput);

@@ -2,7 +2,7 @@ package server;
 
 import java.io.IOException;
 
-public interface ConnectionDataStream{
+public interface Connection {
     public String readInput() throws IOException;
     public void write(String message) throws IOException;
     public boolean detectEOF();

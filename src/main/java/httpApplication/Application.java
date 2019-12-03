@@ -1,8 +1,8 @@
 package httpApplication;
 
-import httpserver.HttpIncomingMessage;
+import httpserver.HttpRequest;
 import httpserver.HttpResponse;
 
 public interface Application {
-    public HttpResponse start(HttpIncomingMessage request);
+    public HttpResponse start(HttpRequest request);
 }

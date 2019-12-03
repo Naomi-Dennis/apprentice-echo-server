@@ -1,10 +1,10 @@
 package httpApplication;
 
-import httpserver.HttpIncomingMessage;
+import httpserver.HttpRequest;
 import httpserver.HttpResponse;
 
 public class SimpleApplication implements Application{
-    public HttpResponse start(HttpIncomingMessage clientRequest){
+    public HttpResponse start(HttpRequest clientRequest){
         HttpResponse response = new HttpResponse();
 
         if(clientRequest.getRoute().contains("simple_get")){
@@ -13,6 +13,7 @@ public class SimpleApplication implements Application{
         else{
             response.status = 404;
         }
+
         return response;
     }
 }

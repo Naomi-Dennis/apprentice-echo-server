@@ -3,7 +3,7 @@ package echoserver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import server.ConnectionDataStream;
+import server.Connection;
 import server.Logger;
 
 import displays.Console;
@@ -23,7 +23,7 @@ public class ServiceTest {
 
     private String clientInput = "client input";
 
-    class FakeClientConnection implements ConnectionDataStream {
+    class FakeClientConnection implements Connection {
         String currentInput;
         FakeClientConnection(){
         }

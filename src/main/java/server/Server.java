@@ -11,10 +11,10 @@ public class Server {
     }
 
     public void start() throws IOException {
-        ConnectionDataStream client;
+        Connection client;
         while ((client = hostServer.listenForClientConnection()) != null) {
 
-            final ConnectionDataStream connectedClient = client;
+            final Connection connectedClient = client;
             Runnable program = () -> process.runWith(connectedClient);
 
             connectionThreadSpool.execute(program);

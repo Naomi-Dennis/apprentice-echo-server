@@ -3,7 +3,7 @@ package server;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientConnection implements ConnectionDataStream {
+public class ClientConnection implements Connection {
 
     public ClientConnection(Socket socket) {
         this.socket = socket;

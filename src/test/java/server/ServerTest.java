@@ -1,6 +1,5 @@
 package server;
 
-import echoserver.*;
 import displays.Console;
 
 import org.junit.After;
@@ -33,7 +32,7 @@ public class ServerTest {
             this.hostSocket = hostSocket;
         }
 
-        public ConnectionDataStream listenForClientConnection() {
+        public Connection listenForClientConnection() {
             if (clients.size() > 0) {
                 return clients.remove(0);
             }
@@ -49,7 +48,7 @@ public class ServerTest {
         }
     }
 
-    class FakeClientConnection implements ConnectionDataStream {
+    class FakeClientConnection implements Connection {
         FakeClientConnection(Socket socket) {
             this.socket = socket;
         }
@@ -70,7 +69,7 @@ public class ServerTest {
     }
 
     class FakeService implements Process{
-        public void runWith(ConnectionDataStream client){}
+        public void runWith(Connection client){}
     }
 
     @Before
