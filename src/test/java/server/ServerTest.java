@@ -1,6 +1,5 @@
 package server;
 
-import echoserver.*;
 import displays.Console;
 
 import org.junit.After;
@@ -33,7 +32,7 @@ public class ServerTest {
             this.hostSocket = hostSocket;
         }
 
-        public ConnectionDataStream listenForClientConnection() {
+        public Connection listenForClientConnection() {
             if (clients.size() > 0) {
                 return clients.remove(0);
             }
@@ -49,7 +48,7 @@ public class ServerTest {
         }
     }
 
-    class FakeClientConnection implements ConnectionDataStream {
+    class FakeClientConnection implements Connection {
         FakeClientConnection(Socket socket) {
             this.socket = socket;
         }
@@ -65,7 +64,12 @@ public class ServerTest {
             return true;
         }
 
+        public void close() throws IOException {}
         public Socket socket;
+    }
+
+    class FakeService implements Session {
+        public void runWith(Connection client){}
     }
 
     @Before
@@ -75,7 +79,7 @@ public class ServerTest {
         Logger echoLogger = new Logger(new Console(new ByteArrayOutputStream()));
         threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
-        testServer = new Server(host, echoLogger, threadHandler, new EchoServiceFactory());
+        testServer = new Server(host, threadHandler, new FakeService());
 
         Integer numberOfClients = 10;
         while (numberOfClients > 0) {

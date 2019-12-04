@@ -1,18 +1,18 @@
 package echoserver;
 
-import server.ConnectionDataStream;
+import server.Connection;
 import server.Logger;
+import server.Session;
 
 import java.io.IOException;
 
-public class Service implements Runnable {
+public class EchoService implements Session {
 
-    Service(ConnectionDataStream client, Logger logger){
-        this.client = client;
-        this.logger = logger;
+    EchoService(Logger serverLog){
+        logger = serverLog;
     }
 
-    public void run(){
+    public void runWith(Connection client){
         try {
             while (!client.detectEOF()) {
                 echo(client);
@@ -25,12 +25,10 @@ public class Service implements Runnable {
     }
 
     private Logger logger;
-    private ConnectionDataStream client;
 
-    private void echo(ConnectionDataStream connectedClient) throws IOException {
+    private void echo(Connection connectedClient) throws IOException {
         String clientInput = connectedClient.readInput();
         logger.log("Client Input: " + clientInput);
         connectedClient.write("=> " + clientInput);
     }
-
 }

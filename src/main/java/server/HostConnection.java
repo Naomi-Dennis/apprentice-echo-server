@@ -13,7 +13,7 @@ public class HostConnection implements ConnectionHub {
         this.port = socket.getLocalPort();
     }
 
-    public ConnectionDataStream listenForClientConnection() throws IOException {
+    public Connection listenForClientConnection() throws IOException {
         Socket connectedClient = this.socket.accept();
 
         return new ClientConnection(connectedClient);

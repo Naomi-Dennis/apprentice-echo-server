@@ -3,7 +3,7 @@ package server;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientConnection implements ConnectionDataStream {
+public class ClientConnection implements Connection {
 
     public ClientConnection(Socket socket) {
         this.socket = socket;
@@ -19,6 +19,9 @@ public class ClientConnection implements ConnectionDataStream {
         socket.getOutputStream().flush();
     }
 
+    public void close() throws IOException{
+        socket.close();
+    }
     public boolean detectEOF() {
         return EOFReached;
     }

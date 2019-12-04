@@ -1,7 +1,9 @@
 version: 0.0
 os: linux
 files:
-  - source: EchoServer.jar
+  - source: EchoService.jar
+    destination: /opt
+  - source: SimpleApplication.jar
     destination: /opt
   - source: deploy_server.sh
     destination: /opt

@@ -1,4 +1,3 @@
-
 plugins {
     id 'java'
 }
@@ -15,13 +14,30 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-jar{
+task httpServer (type: Jar)  {
     libsDirName='../'
-    archivesBaseName="EchoServer"
+
+    manifest {
+        attributes 'Main-Class': 'main.Main',
+                   'Class-Path': '../src/main/java/main'
+    }
+
+    from configurations.compile.collect { zipTree it }
+    with jar
+
+    archiveFileName="SimpleApplication.jar"
+}
+
+task echoService (type: Jar) {
+    libsDirName='../'
+
     manifest {
         attributes 'Main-Class': 'echoserver.EchoServer',
                    'Class-Path': '../src/main/java/echoserver/'
     }
 
+    from configurations.compile.collect { zipTree it }
+    with jar
 
+    archiveFileName="EchoService.jar"
 }

@@ -52,4 +52,14 @@ public class ClientConnectionTest {
         String clientEchoMessage = socket.getOutputStream().toString();
         Assert.assertEquals(clientEchoMessage, "=> 3\n");
     }
+
+    @Test
+    public void whenTheClientConnectionCloses_theSocketIsClosed() throws IOException{
+        Socket clientSocket = new Socket();
+        ClientConnection client = new ClientConnection(clientSocket);
+
+        client.close();
+
+        Assert.assertTrue(clientSocket.isClosed());
+    }
 }

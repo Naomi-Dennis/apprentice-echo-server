@@ -3,17 +3,18 @@ package echoserver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import server.ConnectionDataStream;
+import server.Connection;
 import server.Logger;
 
 import displays.Console;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ServerRunnableTest {
+public class EchoServiceTest {
 
-    private Service serverThread;
+    private EchoService serverThread;
     private FakeClientConnection client;
 
     private ArrayList<String> inputs = new ArrayList<String>();
@@ -22,7 +23,7 @@ public class ServerRunnableTest {
 
     private String clientInput = "client input";
 
-    class FakeClientConnection implements ConnectionDataStream {
+    class FakeClientConnection implements Connection {
         String currentInput;
         FakeClientConnection(){
         }
@@ -37,6 +38,7 @@ public class ServerRunnableTest {
             currentInput = inputs.remove(0);
             return currentInput == null;
         }
+        public void close() throws IOException{}
     }
 
     @Before
@@ -50,8 +52,8 @@ public class ServerRunnableTest {
 
     @Test
     public void whenTheServerStarts_clientInputIsLogged() {
-        serverThread = new Service(client, echoLogger);
-        serverThread.run();
+        serverThread = new EchoService(echoLogger);
+        serverThread.runWith(client);
         String echoLoggerContent = screenOutput.toString();
 
         Assert.assertTrue(screenOutput.toString(), echoLoggerContent.contains(clientInput));
@@ -59,8 +61,8 @@ public class ServerRunnableTest {
 
     @Test
     public void whenTheClientIsConnected_theClientInputIsWrittenToTheClientConnection() {
-        serverThread = new Service(client, echoLogger);
-        serverThread.run();
+        serverThread = new EchoService(echoLogger);
+        serverThread.runWith(client);
         String clientConnectionData = screenOutput.toString();
 
         Assert.assertTrue("Received Input: " + clientConnectionData, clientConnectionData.contains(clientInput));
