@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        CommandLinePortValidator validator = new CommandLinePortValidator(5000);
+        CommandLinePortValidator validator = new CommandLinePortValidator(2500);
         final Integer SPECIFIED_PORT = validator.parsePort(args);
 
         ServerSocket hostSocket = new ServerSocket(SPECIFIED_PORT);
