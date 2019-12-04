@@ -7,7 +7,7 @@ public class SimpleApplication implements Application{
     public HttpResponse start(HttpRequest clientRequest){
         HttpResponse response = new HttpResponse();
 
-        if(clientRequest.getRoute().contains("simple_get")){
+        if(clientRequest.getResource().contains("simple_get")){
             response.status = 200;
         }
         else{

@@ -2,13 +2,13 @@ package echoserver;
 
 import server.Connection;
 import server.Logger;
-import server.Process;
+import server.Session;
 
 import java.io.IOException;
 
-public class Service implements Process {
+public class EchoService implements Session {
 
-    Service(Logger serverLog){
+    EchoService(Logger serverLog){
         logger = serverLog;
     }
 

@@ -12,9 +12,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ServiceTest {
+public class EchoServiceTest {
 
-    private Service serverThread;
+    private EchoService serverThread;
     private FakeClientConnection client;
 
     private ArrayList<String> inputs = new ArrayList<String>();
@@ -52,7 +52,7 @@ public class ServiceTest {
 
     @Test
     public void whenTheServerStarts_clientInputIsLogged() {
-        serverThread = new Service(echoLogger);
+        serverThread = new EchoService(echoLogger);
         serverThread.runWith(client);
         String echoLoggerContent = screenOutput.toString();
 
@@ -61,7 +61,7 @@ public class ServiceTest {
 
     @Test
     public void whenTheClientIsConnected_theClientInputIsWrittenToTheClientConnection() {
-        serverThread = new Service(echoLogger);
+        serverThread = new EchoService(echoLogger);
         serverThread.runWith(client);
         String clientConnectionData = screenOutput.toString();
 

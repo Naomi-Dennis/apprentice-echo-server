@@ -3,11 +3,11 @@ package httpserver;
 import httpApplication.Application;
 import server.Connection;
 import server.Logger;
-import server.Process;
+import server.Session;
 
 import java.io.IOException;
 
-public class HttpServer implements Process {
+public class HttpServer implements Session {
     public HttpServer(Application application, Logger serverLog) {
         this.application = application;
         this.serverLog = serverLog;

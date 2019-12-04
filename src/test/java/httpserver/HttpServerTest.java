@@ -49,7 +49,7 @@ public class HttpServerTest {
         FakeApplication() {}
 
         public HttpResponse start(HttpRequest clientRequest) {
-            receivedRoute = clientRequest.getRoute();
+            receivedRoute = clientRequest.getResource();
             httpResponse = new HttpResponse();
             httpResponse.status = 200;
             return httpResponse;

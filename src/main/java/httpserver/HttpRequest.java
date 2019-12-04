@@ -1,14 +1,14 @@
 package httpserver;
 
 public class HttpRequest{
-    private String route = "";
+    private String resource = "";
 
     HttpRequest(HttpRequestBuilder builder){
-         this.route = builder.route;
+         this.resource = builder.route;
      }
 
-     public String getRoute(){
-        return route;
+     public String getResource(){
+        return resource;
      }
 
 

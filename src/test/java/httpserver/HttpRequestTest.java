@@ -13,6 +13,6 @@ public class HttpRequestTest {
                                 .addRoute(expectedRoute)
                                 .build();
 
-       Assert.assertEquals(expectedRoute, request.getRoute());
+       Assert.assertEquals(expectedRoute, request.getResource());
     }
 }

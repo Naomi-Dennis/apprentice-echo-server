@@ -68,7 +68,7 @@ public class ServerTest {
         public Socket socket;
     }
 
-    class FakeService implements Process{
+    class FakeService implements Session {
         public void runWith(Connection client){}
     }
 
