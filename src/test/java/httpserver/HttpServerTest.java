@@ -51,7 +51,7 @@ public class HttpServerTest {
         public HttpResponse start(HttpRequest clientRequest) {
             receivedRoute = clientRequest.getResource();
             httpResponse = new HttpResponse();
-            httpResponse.status = 200;
+            httpResponse.status = "200";
             return httpResponse;
         }
 

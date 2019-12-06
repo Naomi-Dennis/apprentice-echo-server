@@ -17,11 +17,7 @@ public class HttpServer implements Session {
 
         try {
             String rawRequest = client.readInput();
-            String[] chunkedRawRequest = rawRequest.split(" ");
-
-            HttpRequest clientRequest = new HttpRequest.HttpRequestBuilder()
-                                        .addRoute(chunkedRawRequest[1])
-                                        .build();
+            HttpRequest clientRequest = HttpRequestParser.fromString(rawRequest);
 
             HttpResponse applicationResponse = application.start(clientRequest);
 
