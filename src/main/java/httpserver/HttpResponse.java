@@ -1,5 +1,6 @@
 package httpserver;
 
 public class HttpResponse{
-    public Integer status = 0;
+    public String status = "";
+    public String body = "";
 }
