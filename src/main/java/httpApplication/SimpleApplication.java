@@ -8,12 +8,13 @@ public class SimpleApplication implements Application{
         HttpResponse response = new HttpResponse();
 
         if(clientRequest.getResource().contains("simple_get")){
-            response.status = 200;
+            response.status = "200";
         }
         else{
-            response.status = 404;
+            response.status = "404";
         }
 
+        response.body = clientRequest.getBody();
         return response;
     }
 }
