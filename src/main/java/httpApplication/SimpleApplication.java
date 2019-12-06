@@ -10,6 +10,10 @@ public class SimpleApplication implements Application{
         if(clientRequest.getResource().matches(".*simple_get|.*echo_body")){
             response.status = "200";
         }
+        else if(clientRequest.getResource().matches(".*redirect")){
+            response.status = "301";
+            response.headers.add("Location: http://127.0.0.1:5000/simple_get");
+        }
         else{
             response.status = "404";
         }
