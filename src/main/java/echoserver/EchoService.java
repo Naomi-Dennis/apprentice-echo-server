@@ -17,8 +17,8 @@ public class EchoService implements Session {
             while (!client.detectEOF()) {
                 echo(client);
             }
-            client.write("Connection closing...");
-            logger.log("Client Disconnected");
+            client.write("Connection closing...\n");
+            logger.log("Client Disconnected \n");
         } catch (IOException e) {
             logger.log("Error: I/O Interrupted");
         }
@@ -28,7 +28,7 @@ public class EchoService implements Session {
 
     private void echo(Connection connectedClient) throws IOException {
         String clientInput = connectedClient.readInput();
-        logger.log("Client Input: " + clientInput);
-        connectedClient.write("=> " + clientInput);
+        logger.log("Client Input: " + clientInput + "\n");
+        connectedClient.write("=> " + clientInput + "\n");
     }
 }
