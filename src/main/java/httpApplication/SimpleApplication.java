@@ -7,7 +7,7 @@ public class SimpleApplication implements Application{
     public HttpResponse start(HttpRequest clientRequest){
         HttpResponse response = new HttpResponse();
 
-        if(clientRequest.getResource().contains("simple_get")){
+        if(clientRequest.getResource().matches(".*simple_get|.*echo_body")){
             response.status = "200";
         }
         else{
