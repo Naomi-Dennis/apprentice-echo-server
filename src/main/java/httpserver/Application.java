@@ -1,4 +1,4 @@
-package httpApplication;
+package httpserver;
 
 import httpserver.HttpRequest;
 import httpserver.HttpResponse;

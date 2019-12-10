@@ -1,6 +1,5 @@
 package httpserver;
 
-import httpApplication.Application;
 import server.Connection;
 import server.Logger;
 import server.Session;

@@ -1,9 +1,10 @@
-package httpApplication;
+package clientApplication;
 
+import httpserver.Application;
 import httpserver.HttpRequest;
 import httpserver.HttpResponse;
 
-public class SimpleApplication implements Application{
+public class SimpleApplication implements Application {
     public HttpResponse start(HttpRequest clientRequest){
         HttpResponse response = new HttpResponse();
 

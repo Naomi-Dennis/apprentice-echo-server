@@ -1,7 +1,7 @@
 package main;
 
 import displays.Console;
-import httpApplication.SimpleApplication;
+import clientApplication.SimpleApplication;
 import httpserver.*;
 import server.CommandLinePortValidator;
 import server.HostConnection;

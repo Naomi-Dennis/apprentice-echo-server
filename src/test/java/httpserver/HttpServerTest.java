@@ -1,7 +1,6 @@
 package httpserver;
 
 import displays.Console;
-import httpApplication.Application;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
