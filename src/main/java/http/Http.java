@@ -1,4 +1,4 @@
-package httpserver;
+package http;
 
 import server.Connection;
 import server.Logger;
@@ -6,8 +6,8 @@ import server.Session;
 
 import java.io.IOException;
 
-public class HttpServer implements Session {
-    public HttpServer(Application application, Logger serverLog) {
+public class Http implements Session {
+    public Http(Application application, Logger serverLog) {
         this.application = application;
         this.serverLog = serverLog;
     }

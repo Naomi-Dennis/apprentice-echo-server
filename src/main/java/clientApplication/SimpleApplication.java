@@ -1,8 +1,8 @@
 package clientApplication;
 
-import httpserver.Application;
-import httpserver.HttpRequest;
-import httpserver.HttpResponse;
+import http.Application;
+import http.HttpRequest;
+import http.HttpResponse;
 
 public class SimpleApplication implements Application {
     public HttpResponse start(HttpRequest clientRequest){

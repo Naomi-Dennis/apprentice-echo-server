@@ -1,7 +1,4 @@
-package httpserver;
-
-import httpserver.HttpRequest;
-import httpserver.HttpResponse;
+package http;
 
 public interface Application {
     public HttpResponse start(HttpRequest request);

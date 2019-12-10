@@ -2,7 +2,7 @@ package main;
 
 import displays.Console;
 import clientApplication.SimpleApplication;
-import httpserver.*;
+import http.*;
 import server.CommandLinePortValidator;
 import server.HostConnection;
 import server.Logger;
@@ -26,7 +26,7 @@ public class Main {
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
 
-        HttpServer httpProcess = new HttpServer(new SimpleApplication(), logger);
+        Http httpProcess = new Http(new SimpleApplication(), logger);
 
         Server tcpServer = new Server(hostServer, threadHandler, httpProcess);
 

@@ -1,4 +1,4 @@
-package httpserver;
+package http;
 
 public class HttpRequest{
     private String resource = "";

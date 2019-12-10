@@ -1,4 +1,4 @@
-package httpserver;
+package http;
 
 
 import java.util.ArrayList;
