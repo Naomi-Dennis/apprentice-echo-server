@@ -31,7 +31,7 @@ public class Main {
         Server tcpServer = new Server(hostServer, threadHandler, httpProcess);
 
         try {
-            logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
+            logger.log("Awaiting Input on Port: " + SPECIFIED_PORT + "\n");
             tcpServer.start();
         } finally {
             tcpServer.stop();

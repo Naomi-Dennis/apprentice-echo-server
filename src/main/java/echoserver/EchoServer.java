@@ -24,7 +24,7 @@ public class EchoServer {
         Server echoServer = new Server(hostServer, threadHandler, new EchoService(logger));
 
         try {
-            logger.log("Awaiting Input on Port: " + SPECIFIED_PORT);
+            logger.log("Awaiting Input on Port: " + SPECIFIED_PORT + "\n");
             echoServer.start();
         } finally {
             echoServer.stop();

@@ -17,6 +17,6 @@ public class ConsoleTest {
         console.outputToScreen("Hello World!");
         String screen_output = outputStream.toString();
 
-        Assert.assertEquals(screen_output, "Hello World!\n");
+        Assert.assertEquals(screen_output, "Hello World!");
     }
 }

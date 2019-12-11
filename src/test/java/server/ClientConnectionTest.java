@@ -47,7 +47,7 @@ public class ClientConnectionTest {
     public void whenTheClientWritesOutput_addDataToTheOutputStream() throws IOException {
         FakeSocket socket = new FakeSocket();
         ClientConnection cs = new ClientConnection(socket);
-        cs.write("=> 3");
+        cs.write("=> 3\n");
 
         String clientEchoMessage = socket.getOutputStream().toString();
         Assert.assertEquals(clientEchoMessage, "=> 3\n");

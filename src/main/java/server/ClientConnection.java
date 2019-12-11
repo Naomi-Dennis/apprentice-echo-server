@@ -14,7 +14,6 @@ public class ClientConnection implements Connection {
     }
 
     public void write(String message) throws IOException {
-        message += "\n";
         socket.getOutputStream().write(message.getBytes());
         socket.getOutputStream().flush();
     }
