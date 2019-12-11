@@ -1,14 +1,19 @@
-package httpApplication;
+package clientApplication;
 
-import httpserver.HttpRequest;
-import httpserver.HttpResponse;
+import http.Application;
+import http.HttpRequest;
+import http.HttpResponse;
 
-public class SimpleApplication implements Application{
+public class SimpleApplication implements Application {
     public HttpResponse start(HttpRequest clientRequest){
         HttpResponse response = new HttpResponse();
 
         if(clientRequest.getResource().matches(".*simple_get|.*echo_body")){
             response.status = "200";
+        }
+        else if(clientRequest.getResource().matches(".*redirect")){
+            response.status = "301";
+            response.headers.add("Location: http://127.0.0.1:5000/simple_get");
         }
         else{
             response.status = "404";

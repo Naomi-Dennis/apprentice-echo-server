@@ -1,7 +1,6 @@
-package httpserver;
+package http;
 
 import displays.Console;
-import httpApplication.Application;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,10 +10,10 @@ import server.Logger;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class HttpServerTest {
+public class HttpTest {
 
     private FakeApplication fakeApp;
-    private HttpServer httpServer;
+    private Http httpServer;
     private FakeClientConnection client;
 
     private class FakeClientConnection implements Connection {
@@ -60,7 +59,7 @@ public class HttpServerTest {
     @Before
     public void setup() {
         fakeApp = new FakeApplication();
-        httpServer = new HttpServer(fakeApp, new Logger(new Console(new ByteArrayOutputStream())));
+        httpServer = new Http(fakeApp, new Logger(new Console(new ByteArrayOutputStream())));
         client = new FakeClientConnection();
     }
 
