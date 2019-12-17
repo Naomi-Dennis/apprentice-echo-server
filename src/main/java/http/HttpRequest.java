@@ -4,14 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpRequest{
+    private HttpMethod method;
     private String resource = "";
     private String body = "";
     private Map<String, String> headers = new HashMap<>();
 
     HttpRequest(HttpRequestBuilder builder){
-         this.resource = builder.route;
-         this.body = builder.body;
-         this.headers = builder.headers;
+         resource = builder.route;
+         body = builder.body;
+         headers = builder.headers;
+         method = builder.method;
      }
 
      public String getResource(){
@@ -22,11 +24,16 @@ public class HttpRequest{
 
      public  Map<String, String> getHeaders(){ return headers; }
 
+    public HttpMethod getMethod() {
+        return method;
+    }
+
     public static class HttpRequestBuilder {
 
         private String route = "";
         private String body = "";
         private Map<String, String> headers = new HashMap<>();
+        private HttpMethod method;
 
         public HttpRequestBuilder addRoute(String route){
             this.route = route;
@@ -40,6 +47,11 @@ public class HttpRequest{
 
         public HttpRequestBuilder addHeaders(Map<String, String> headers){
             this.headers = headers;
+            return this;
+        }
+
+        public HttpRequestBuilder addMethod(HttpMethod method){
+            this.method = method;
             return this;
         }
         public HttpRequest build(){

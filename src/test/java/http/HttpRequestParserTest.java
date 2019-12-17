@@ -54,4 +54,12 @@ public class HttpRequestParserTest {
         String header = httpRequest.getHeaders().get("Host");
         Assert.assertTrue(header.contentEquals("123.456.789.100:1000"));
     }
+
+    @Test
+    public void whenConvertingARawStringRequestIntoAnHttpRequest_HttpRequestIncludesTheMethodVerb(){
+        String rawRequest = "POST /some_page HTTP/1.1\r\n";
+
+        HttpRequest httpRequest = HttpRequestParser.fromString(rawRequest);
+        Assert.assertEquals(HttpMethod.POST, httpRequest.getMethod());
+    }
 }

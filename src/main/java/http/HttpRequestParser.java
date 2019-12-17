@@ -12,6 +12,7 @@ public class HttpRequestParser {
         boolean bodyIsEmpty = chunkedRawRequest.indexOf("") != -1;
 
         return new HttpRequest.HttpRequestBuilder()
+                .addMethod(HttpMethod.valueOf(statusLine[0]))
                 .addRoute(statusLine[1])
                 .addBody(parseBody(chunkedRawRequest, bodyIsEmpty))
                 .addHeaders(parseHeaders(chunkedRawRequest, bodyIsEmpty))
