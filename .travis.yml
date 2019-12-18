@@ -1,6 +1,7 @@
 env:
-  - REPO=HTTP_SERVER
-  - REPO=HTTP_SERVER_TESTS
+  jobs:
+    - REPO=HTTP_SERVER
+    - REPO=HTTP_SERVER_TESTS
 
 jobs:
   include:
