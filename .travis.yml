@@ -20,7 +20,7 @@ jobs:
     - bundle install
     - bundle exec spinach
   allow_failures:
-    - env: REPO=HTTP_SERVER
+    - env: REPO2=HTTP_SERVER_TESTS
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_9e535d2dfa01_key -iv $encrypted_9e535d2dfa01_iv
