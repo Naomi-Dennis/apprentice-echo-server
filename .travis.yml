@@ -14,7 +14,7 @@ jobs:
     - bundle install
     - bundle exec spinach
   allow_failures:
-    - rvm: 2.5.5
+    - name: "Http Server Spec (Spinach)"
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_9e535d2dfa01_key -iv $encrypted_9e535d2dfa01_iv
