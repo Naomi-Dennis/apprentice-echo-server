@@ -1,12 +1,12 @@
 jobs:
   include:
-  - env: REPO=HTTP_SERVER
+  - Name: "Http Server"
     jdk: oraclejdk11
     language: java
     script:
     - "./gradlew build && ./gradlew test"
-  - rvm: 2.5.5
-    env: REPO=HTTP_SERVER_TESTS
+  - Name: "Http Server Spec (Spinach)"
+    rvm: 2.5.5
     install:
     - git clone git@github.com:Naomi-Dennis/http_server_spec.git
     - cd http_server_spec
