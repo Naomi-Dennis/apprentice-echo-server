@@ -1,11 +1,11 @@
 jobs:
   include:
-  - Name: "Http Server"
+  - name: "Http Server"
     jdk: oraclejdk11
     language: java
     script:
     - "./gradlew build && ./gradlew test"
-  - Name: "Http Server Spec (Spinach)"
+  - name: "Http Server Spec (Spinach)"
     rvm: 2.5.5
     install:
     - git clone git@github.com:Naomi-Dennis/http_server_spec.git
