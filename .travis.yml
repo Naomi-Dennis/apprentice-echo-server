@@ -1,18 +1,16 @@
 env:
   - REPO=HTTP_SERVER
-  - REPO2=HTTP_SERVER_TESTS
+  - REPO=HTTP_SERVER_TESTS
 
 jobs:
   include:
-  - name: "Http Server"
-    env: REPO=HTTP_SERVER
+  - env: REPO=HTTP_SERVER
     jdk: oraclejdk11
     language: java
     script:
     - "./gradlew build && ./gradlew test"
-  - name: "Spinach Http Server Tests"
-    rvm: 2.5.5
-    env: REPO2=HTTP_SERVER_TESTS
+  - rvm: 2.5.5
+    env: REPO=HTTP_SERVER_TESTS
     install:
     - git clone git@github.com:Naomi-Dennis/http_server_spec.git
     - cd http_server_spec
@@ -20,7 +18,7 @@ jobs:
     - bundle install
     - bundle exec spinach
   allow_failures:
-    - env: REPO2=HTTP_SERVER_TESTS
+    - env: REPO=HTTP_SERVER_TESTS
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_9e535d2dfa01_key -iv $encrypted_9e535d2dfa01_iv
