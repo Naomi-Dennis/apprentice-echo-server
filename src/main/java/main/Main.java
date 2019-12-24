@@ -36,6 +36,7 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect()),
                 Map.entry(new RouteId(HttpMethod.GET, "/get_with_body"), new SimpleHelloWorld()),
                 Map.entry(new RouteId(HttpMethod.OPTIONS, "/get_with_body"), new OptionsGetWithBody())
+                Map.entry(new RouteId(HttpMethod.POST, "/get_with_body"), new MethodNotAllowed())
         );
 
         Http httpProcess = new Http(new Router(routes), logger);
