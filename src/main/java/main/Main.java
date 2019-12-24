@@ -1,7 +1,10 @@
 package main;
 
+import clientApplication.EchoBody;
+import clientApplication.NotFound;
+import clientApplication.Redirect;
+import clientApplication.SimpleGet;
 import displays.Console;
-import clientApplication.SimpleApplication;
 import http.*;
 import server.CommandLinePortValidator;
 import server.HostConnection;
@@ -10,6 +13,7 @@ import server.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +30,16 @@ public class Main {
         ThreadPoolExecutor threadHandler =
                 new ThreadPoolExecutor(100, 100, 100, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
 
-        Http httpProcess = new Http(new SimpleApplication(), logger);
+        Map<RouteId, Application> routes = Map.ofEntries(
+                Map.entry(new RouteId(HttpMethod.GET, "/not_found"), new NotFound()),
+                Map.entry(new RouteId(HttpMethod.GET, "/simple_get"), new SimpleGet()),
+                Map.entry(new RouteId(HttpMethod.HEAD, "/simple_get"), new SimpleGet()),
+                Map.entry(new RouteId(HttpMethod.HEAD, "/get_with_body"), new SimpleGet()),
+                Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
+                Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect())
+        );
+
+        Http httpProcess = new Http(new Router(routes), logger);
 
         Server tcpServer = new Server(hostServer, threadHandler, httpProcess);
 

@@ -10,9 +10,9 @@ public class HttpRequestTest {
         String expectedRoute = "/some_route";
 
         HttpRequest request = new HttpRequest.HttpRequestBuilder()
-                                .addRoute(expectedRoute)
+                                .addRequestPath(expectedRoute)
                                 .build();
 
-       Assert.assertEquals(expectedRoute, request.getResource());
+       Assert.assertEquals(expectedRoute, request.getRequestPath());
     }
 }
