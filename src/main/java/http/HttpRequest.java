@@ -16,7 +16,7 @@ public class HttpRequest{
          method = builder.method;
      }
 
-     public String getResource(){
+     public String getRequestPath(){
         return resource;
      }
 
@@ -35,7 +35,7 @@ public class HttpRequest{
         private Map<String, String> headers = new HashMap<>();
         private HttpMethod method;
 
-        public HttpRequestBuilder addRoute(String route){
+        public HttpRequestBuilder addRequestPath(String route){
             this.route = route;
             return this;
         }

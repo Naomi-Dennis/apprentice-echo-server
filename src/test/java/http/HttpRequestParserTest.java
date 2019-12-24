@@ -3,9 +3,6 @@ package http;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HttpRequestParserTest {
 
     @Test
@@ -14,7 +11,7 @@ public class HttpRequestParserTest {
 
         HttpRequest httpRequest = HttpRequestParser.fromString(rawRequest);
 
-        Assert.assertTrue(httpRequest.getResource().contentEquals("/some_page"));
+        Assert.assertTrue(httpRequest.getRequestPath().contentEquals("/some_page"));
     }
 
     @Test

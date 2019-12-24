@@ -13,7 +13,7 @@ public class HttpRequestParser {
 
         return new HttpRequest.HttpRequestBuilder()
                 .addMethod(HttpMethod.valueOf(statusLine[0]))
-                .addRoute(statusLine[1])
+                .addRequestPath(statusLine[1])
                 .addBody(parseBody(chunkedRawRequest, bodyIsEmpty))
                 .addHeaders(parseHeaders(chunkedRawRequest, bodyIsEmpty))
                 .build();

@@ -48,7 +48,7 @@ public class HttpTest {
         FakeApplication() {}
 
         public HttpResponse start(HttpRequest clientRequest) {
-            receivedRoute = clientRequest.getResource();
+            receivedRoute = clientRequest.getRequestPath();
             httpResponse = new HttpResponse();
             httpResponse.status = "200";
             return httpResponse;
