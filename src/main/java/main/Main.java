@@ -1,9 +1,6 @@
 package main;
 
-import clientApplication.EchoBody;
-import clientApplication.NotFound;
-import clientApplication.Redirect;
-import clientApplication.SimpleGet;
+import clientApplication.*;
 import displays.Console;
 import http.*;
 import server.CommandLinePortValidator;
@@ -34,7 +31,8 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.GET, "/not_found"), new NotFound()),
                 Map.entry(new RouteId(HttpMethod.GET, "/simple_get"), new SimpleGet()),
                 Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
-                Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect())
+                Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect()),
+                Map.entry(new RouteId(HttpMethod.POST, "/get_with_body"), new MethodNotAllowed())
         );
 
         Http httpProcess = new Http(new Router(routes), logger);
