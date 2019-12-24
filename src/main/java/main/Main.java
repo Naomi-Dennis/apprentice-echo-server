@@ -34,6 +34,8 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.HEAD, "/get_with_body"), new SimpleGet()),
                 Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
                 Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect()),
+                Map.entry(new RouteId(HttpMethod.GET, "/get_with_body"), new SimpleHelloWorld()),
+                Map.entry(new RouteId(HttpMethod.OPTIONS, "/get_with_body"), new OptionsGetWithBody())
                 Map.entry(new RouteId(HttpMethod.POST, "/get_with_body"), new MethodNotAllowed())
         );
 
