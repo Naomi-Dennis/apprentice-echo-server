@@ -33,6 +33,8 @@ public class Main {
         Map<RouteId, Application> routes = Map.ofEntries(
                 Map.entry(new RouteId(HttpMethod.GET, "/not_found"), new NotFound()),
                 Map.entry(new RouteId(HttpMethod.GET, "/simple_get"), new SimpleGet()),
+                Map.entry(new RouteId(HttpMethod.HEAD, "/simple_get"), new SimpleGet()),
+                Map.entry(new RouteId(HttpMethod.HEAD, "/get_with_body"), new SimpleGet()),
                 Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
                 Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect())
         );
