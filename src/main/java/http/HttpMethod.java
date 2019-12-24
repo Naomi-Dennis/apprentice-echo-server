@@ -1,5 +1,5 @@
 package http;
 
 public enum HttpMethod {
-    POST, GET
+    POST, GET, OPTIONS, HEAD
 }
