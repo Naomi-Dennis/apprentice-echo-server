@@ -32,7 +32,8 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.GET, "/simple_get"), new SimpleGet()),
                 Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
                 Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect()),
-                Map.entry(new RouteId(HttpMethod.POST, "/get_with_body"), new MethodNotAllowed())
+                Map.entry(new RouteId(HttpMethod.POST, "/get_with_body"), new MethodNotAllowed()),
+                Map.entry(new RouteId(HttpMethod.GET, "/get_with_body"), new SimpleHelloWorld())
         );
 
         Http httpProcess = new Http(new Router(routes), logger);
