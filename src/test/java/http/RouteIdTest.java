@@ -3,7 +3,7 @@ package http;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RouterIdTest {
+public class RouteIdTest {
 
     @Test
     public void whenHashCodeIsCalled_returnUniqueInteger(){
