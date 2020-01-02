@@ -12,7 +12,7 @@ public class MethodNotAllowed implements Application {
         HttpResponse response = new HttpResponse();
         response.status = "405";
         response.headers = new ArrayList<String>() {{
-            add("Allow: HEAD, OPTIONS");
+            add("Allow: GET, HEAD, OPTIONS");
         }};
 
         return response;
