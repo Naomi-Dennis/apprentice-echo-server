@@ -20,7 +20,7 @@ public class Http implements Session {
 
             HttpResponse applicationResponse = application.start(clientRequest);
 
-            client.write(HttpResponseConverter.toString(applicationResponse));
+            client.write(HttpResponseConverter.toBytes(applicationResponse));
             client.close();
         } catch (IOException e) {
             serverLog.log("I/O Error Encountered");
