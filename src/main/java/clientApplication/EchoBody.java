@@ -9,7 +9,7 @@ public class EchoBody implements Application {
     public HttpResponse start(HttpRequest request) {
         HttpResponse response = new HttpResponse();
         response.status = "200";
-        response.body = request.getBody();
+        response.body = request.getBody().getBytes();
         return response;
     }
 }

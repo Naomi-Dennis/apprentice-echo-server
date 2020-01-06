@@ -21,7 +21,7 @@ public class RouterTest {
         public HttpResponse start(HttpRequest request) {
             HttpResponse notFoundResponse = new HttpResponse();
             notFoundResponse.status = "200";
-            notFoundResponse.body = "Some Content";
+            notFoundResponse.body = "Some Content".getBytes();
             return notFoundResponse;
         }
     }
@@ -89,7 +89,7 @@ public class RouterTest {
 
         HttpResponse response = router.start(request);
         boolean responseHasBodyAnd404Status = response.status.equals("200") &&
-                                              response.body.equals("Some Content");
+                                              new String(response.body).equals("Some Content");
 
 
         Assert.assertTrue(responseHasBodyAnd404Status);

@@ -9,7 +9,7 @@ public class SimpleHelloWorld implements Application {
     public HttpResponse start(HttpRequest request) {
         HttpResponse response = new HttpResponse();
         response.status = "200";
-        response.body = "hello world";
+        response.body = "hello world".getBytes();
         return response;
     }
 }

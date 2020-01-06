@@ -34,6 +34,11 @@ public class EchoServiceTest {
 
         public void write(String message){}
 
+        @Override
+        public void write(byte[] message) throws IOException {
+
+        }
+
         public boolean detectEOF(){
             currentInput = inputs.remove(0);
             return currentInput == null;

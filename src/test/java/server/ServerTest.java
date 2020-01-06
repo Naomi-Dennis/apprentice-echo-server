@@ -56,6 +56,10 @@ public class ServerTest {
         public void write(String message) {
         }
 
+        public void write(byte[] message) throws IOException {
+
+        }
+
         public String readInput() {
             return "";
         }

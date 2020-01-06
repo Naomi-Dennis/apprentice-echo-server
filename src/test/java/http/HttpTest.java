@@ -29,6 +29,11 @@ public class HttpTest {
             this.input = message;
         }
 
+        @Override
+        public void write(byte[] message) throws IOException {
+            this.input = new String(message);
+        }
+
         public boolean detectEOF() {
             return false;
         }
