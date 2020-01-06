@@ -19,7 +19,8 @@ public class CoolGif implements Application {
         HttpResponse response = new HttpResponse();
 
         try {
-            byte[] gifData = Files.readAllBytes(new File("/Users/naomidennis/Documents/code-projects/java/apprentice-echo-server/src/main/java/main/homer_simpson.gif").toPath());
+            String base_path = System.getProperty("user.dir");
+            byte[] gifData = Files.readAllBytes(new File(base_path + "/src/main/java/main/homer_simpson.gif").toPath());
             response.body = gifData;
             response.headers = new ArrayList<String>(){{
                add("Content-Type: image/gif");

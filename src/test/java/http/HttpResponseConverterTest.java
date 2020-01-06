@@ -47,7 +47,8 @@ public class HttpResponseConverterTest {
 
     @Test public void whenConvertingAnHttpResponseToRawHttpResponseAsBytes_includesImageData() throws IOException {
         HttpResponse response = new HttpResponse();
-        byte[] testImageData = Files.readAllBytes(new File("/Users/naomidennis/Documents/code-projects/java/apprentice-echo-server/src/main/java/main/homer_simpson.gif").toPath());
+        String base_path = System.getProperty("user.dir");
+        byte[] testImageData = Files.readAllBytes(new File(base_path + "/src/main/java/main/homer_simpson.gif").toPath());
         response.headers.add("Content-Type: image/gif");
         response.headers.add("Content-Length: " + testImageData.length);
 
@@ -56,6 +57,7 @@ public class HttpResponseConverterTest {
         response.body = testImageData;
 
         byte[] rawResponse = HttpResponseConverter.toBytes(response);
+
 
         Assert.assertTrue(rawResponse.length - testImageData.length > 0);
     }
