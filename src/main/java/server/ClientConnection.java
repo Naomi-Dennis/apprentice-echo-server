@@ -18,6 +18,10 @@ public class ClientConnection implements Connection {
         socket.getOutputStream().flush();
     }
 
+    public void write(byte[] message) throws IOException{
+        socket.getOutputStream().write(message, 0, message.length);
+        socket.getOutputStream().flush();
+    }
     public void close() throws IOException{
         socket.close();
     }
