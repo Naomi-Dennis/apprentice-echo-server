@@ -42,7 +42,8 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.PATCH, "/get_with_body"), new MethodNotAllowed()),
                 Map.entry(new RouteId(HttpMethod.PUT, "/get_with_body"), new MethodNotAllowed()),
                 Map.entry(new RouteId(HttpMethod.OPTIONS, "/method_options"), new MethodOption()),
-                Map.entry(new RouteId(HttpMethod.OPTIONS, "/method_options2"), new MethodOptionB())
+                Map.entry(new RouteId(HttpMethod.OPTIONS, "/method_options2"), new MethodOptionB()),
+                Map.entry(new RouteId(HttpMethod.GET, "/cool_gif"), new CoolGif(logger))
         );
 
         Http httpProcess = new Http(new Router(routes), logger);
