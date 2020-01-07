@@ -5,9 +5,9 @@ import http.HttpRequest;
 import http.HttpResponse;
 import server.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class CoolGif implements Application {
@@ -19,8 +19,7 @@ public class CoolGif implements Application {
         HttpResponse response = new HttpResponse();
 
         try {
-            String base_path = System.getProperty("user.dir");
-            byte[] gifData = Files.readAllBytes(new File(base_path + "/src/main/java/main/homer_simpson.gif").toPath());
+            byte[] gifData = this.getClass().getResourceAsStream("/homer_simpson.gif").readAllBytes();
             response.body = gifData;
             response.headers = new ArrayList<String>(){{
                add("Content-Type: image/gif");
