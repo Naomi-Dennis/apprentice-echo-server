@@ -5,11 +5,8 @@ import clientApplication.DynamicOptions;
 import clientApplication.NotFound;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Router implements Application {
     public Map<RouteId, Application> routes;
@@ -19,38 +16,38 @@ public class Router implements Application {
     }
 
     public HttpResponse start(HttpRequest clientRequest) {
-        RouteId id = new RouteId(clientRequest.getMethod(), clientRequest.getRequestPath());
-        Application verifiedApplication = routes.get(id);
-
-        if (verifiedApplication == null) {
-            verifiedApplication = new NotFound();
-
-            if (pathExists(id.path)) {
-                String verbs = findVerbsForRequestPath(id);
-                verifiedApplication = new DynamicMethodNotAllowed(verbs);
-
-                if (id.verb == HttpMethod.OPTIONS) {
-                    verifiedApplication = new DynamicOptions(verbs);
-                }
-            }
-        }
-
+        RouteId requestedRoute = new RouteId(clientRequest.getMethod(), clientRequest.getRequestPath());
+        Application verifiedApplication = routes.getOrDefault(requestedRoute, processUndefinedRoute(requestedRoute));
 
         HttpResponse applicationResponse = verifiedApplication.start(clientRequest);
         return applicationResponse;
     }
 
+    private Application processUndefinedRoute(RouteId requestedRoute) {
+        String allowedVerbs = findAllowedVerbsForRequestPath(requestedRoute);
+        if (!pathExists(requestedRoute.path)) {
+            return new NotFound();
+        } else if (pathExists(requestedRoute.path) && requestedRoute.verb != HttpMethod.OPTIONS) {
+            return new DynamicMethodNotAllowed(allowedVerbs);
+        } else {
+            return new DynamicOptions(allowedVerbs);
+        }
+    }
 
-    private String findVerbsForRequestPath(RouteId id) {
+    private String findAllowedVerbsForRequestPath(RouteId requestedRouteId) {
         Set<RouteId> routeIds = routes.keySet();
-        Stream<RouteId> matchedRoutes = routeIds.stream().filter((RouteId setId) -> id.path.equals(setId.path));
-        Stream<String> allowedVerbs = matchedRoutes.map((RouteId currentId) -> currentId.verb.toString());
-        String verbs = allowedVerbs.collect(Collectors.joining(", "));
-        verbs += ", OPTIONS";
-        return verbs;
+
+        String allowedVerbs = "OPTIONS, ";
+        allowedVerbs += routeIds.stream()
+                .filter((RouteId currentId) -> requestedRouteId.path.equals(currentId.path))
+                .map((RouteId currentId) -> currentId.verb.toString())
+                .collect(Collectors.joining(", "));
+
+        return allowedVerbs;
     }
 
     private boolean pathExists(String requestedPath) {
-        return routes.keySet().stream().filter((RouteId id) -> id.path.equals(requestedPath)).count() > 0;
+        long pathsFound = routes.keySet().stream().filter((RouteId id) -> id.path.equals(requestedPath)).count();
+        return pathsFound > 0;
     }
 }

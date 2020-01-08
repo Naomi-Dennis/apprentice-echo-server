@@ -130,7 +130,7 @@ public class RouterTest {
 
         HttpResponse response = router.start(request);
         boolean responseHasStatus200AndAllowHeader = response.status.equals("200") &&
-                response.headers.contains("Allow: GET, OPTIONS");
+                response.headers.contains("Allow: OPTIONS, GET");
 
         Assert.assertTrue(response.status, responseHasStatus200AndAllowHeader);
     }
@@ -147,7 +147,7 @@ public class RouterTest {
 
         HttpResponse response = router.start(request);
         boolean responseHasStatus405AndAllowHeader = response.status.equals("405") &&
-                response.headers.contains("Allow: POST, OPTIONS");
+                response.headers.contains("Allow: OPTIONS, POST");
 
         Assert.assertTrue( response.status, responseHasStatus405AndAllowHeader);
     }
