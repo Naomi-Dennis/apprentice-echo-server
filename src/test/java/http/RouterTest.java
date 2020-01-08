@@ -3,12 +3,11 @@ package http;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 public class RouterTest {
 
-    class RouteApplication implements Application{
+    class FakeSimpleApplication implements Application {
 
         public HttpResponse start(HttpRequest request) {
             HttpResponse successResponse = new HttpResponse();
@@ -17,7 +16,7 @@ public class RouterTest {
         }
     }
 
-    class FakeSimplePostApplication implements Application{
+    class FakeSimplePostApplication implements Application {
         public HttpResponse start(HttpRequest request) {
             HttpResponse notFoundResponse = new HttpResponse();
             notFoundResponse.status = "200";
@@ -26,8 +25,8 @@ public class RouterTest {
         }
     }
 
-    class FakeRedirectApplication implements Application{
-        public HttpResponse start(HttpRequest request){
+    class FakeRedirectApplication implements Application {
+        public HttpResponse start(HttpRequest request) {
             HttpResponse redirectResponse = new HttpResponse();
             redirectResponse.status = "301";
             redirectResponse.headers = new ArrayList<String>() {{
@@ -38,21 +37,29 @@ public class RouterTest {
         }
     }
 
-    private HttpRequest defineRequestWith200AndBody(){
+
+    private HttpRequest definePostRequestWith200AndBody() {
         return new HttpRequest.HttpRequestBuilder()
                 .addMethod(HttpMethod.POST)
                 .addRequestPath("simple_post")
                 .build();
     }
 
-    private HttpRequest defineRequestWith200(){
+    private HttpRequest defineGetRequestWith200() {
         return new HttpRequest.HttpRequestBuilder()
                 .addMethod(HttpMethod.GET)
                 .addRequestPath("simple_get")
                 .build();
     }
 
-    private HttpRequest defineRequestWith301AndHeaderContainsLocation(){
+    private HttpRequest defineOptionsRequest() {
+        return new HttpRequest.HttpRequestBuilder()
+                .addMethod(HttpMethod.OPTIONS)
+                .addRequestPath("simple_get")
+                .build();
+    }
+
+    private HttpRequest defineRequestWith301AndHeaderContainsLocation() {
         return new HttpRequest.HttpRequestBuilder()
                 .addMethod(HttpMethod.GET)
                 .addRequestPath("redirect")
@@ -61,11 +68,11 @@ public class RouterTest {
 
 
     @Test
-    public void whenProcessingAGetRoute_respondWith200(){
-        HttpRequest request = defineRequestWith200();
+    public void whenProcessingAGetRoute_respondWith200() {
+        HttpRequest request = defineGetRequestWith200();
         Map<RouteId, Application> routes = Map.ofEntries(
                 Map.entry(new RouteId(HttpMethod.GET, "simple_get"),
-                          new RouteApplication())
+                        new FakeSimpleApplication())
         );
         Router router = new Router(routes);
 
@@ -76,39 +83,88 @@ public class RouterTest {
     }
 
 
-
     @Test
-    public void whenProcessingAGetRoute_respondWith200AndBodyContainsNotFound(){
-        HttpRequest request = defineRequestWith200AndBody();
+    public void whenProcessingAGetRoute_respondWith200AndBodyContainsNotFound() {
+        HttpRequest request = definePostRequestWith200AndBody();
         Map<RouteId, Application> routes = Map.ofEntries(
                 Map.entry(new RouteId(HttpMethod.POST, "simple_post"),
-                          new FakeSimplePostApplication())
+                        new FakeSimplePostApplication())
         );
         Router router = new Router(routes);
 
 
         HttpResponse response = router.start(request);
         boolean responseHasBodyAnd404Status = response.status.equals("200") &&
-                                              new String(response.body).equals("Some Content");
+                new String(response.body).equals("Some Content");
 
 
         Assert.assertTrue(responseHasBodyAnd404Status);
     }
 
     @Test
-    public void whenProcessingAGetRoute_respondWith301AndLocationHeader(){
+    public void whenProcessingAGetRoute_respondWith301AndLocationHeader() {
         HttpRequest request = defineRequestWith301AndHeaderContainsLocation();
         Map<RouteId, Application> routes = Map.ofEntries(
                 Map.entry(new RouteId(HttpMethod.GET, "redirect"),
-                          new FakeRedirectApplication())
+                        new FakeRedirectApplication())
         );
         Router router = new Router(routes);
 
 
         HttpResponse response = router.start(request);
         boolean responseHas301LocationHeader = response.status.equals("301") &&
-                                                          response.headers.contains("Location: /simple_get");
+                response.headers.contains("Location: /simple_get");
 
         Assert.assertTrue(responseHas301LocationHeader);
     }
+
+    @Test
+    public void whenProcessingAnOptionsMethodToAnExistingPath_respondWith200AndAllowHeader() {
+        HttpRequest request = defineOptionsRequest();
+        Map<RouteId, Application> routes = Map.ofEntries(
+                Map.entry(new RouteId(HttpMethod.GET, "simple_get"),
+                        new FakeSimpleApplication())
+        );
+
+        Router router = new Router(routes);
+
+        HttpResponse response = router.start(request);
+        boolean responseHasStatus200AndAllowHeader = response.status.equals("200") &&
+                response.headers.contains("Allow: OPTIONS, GET");
+
+        Assert.assertTrue(response.status, responseHasStatus200AndAllowHeader);
+    }
+
+    @Test
+    public void whenProcessingANonExistingVerbForAnExistingPath_respondWith405AndAllowHeader() {
+        HttpRequest request = defineGetRequestWith200();
+        Map<RouteId, Application> routes = Map.ofEntries(
+                Map.entry(new RouteId(HttpMethod.POST, "simple_get"),
+                        new FakeSimpleApplication())
+        );
+
+        Router router = new Router(routes);
+
+        HttpResponse response = router.start(request);
+        boolean responseHasStatus405AndAllowHeader = response.status.equals("405") &&
+                response.headers.contains("Allow: OPTIONS, POST");
+
+        Assert.assertTrue( response.status, responseHasStatus405AndAllowHeader);
+    }
+
+    @Test
+    public void whenProcessingANotDefinedRoute_returnsA404() {
+        HttpRequest request = defineGetRequestWith200();
+        Map<RouteId, Application> routes = Map.ofEntries(
+                Map.entry(new RouteId(HttpMethod.POST, "simple_yetti"),
+                        new FakeSimpleApplication())
+        );
+        Router router = new Router(routes);
+
+
+        HttpResponse response = router.start(request);
+
+        Assert.assertEquals("Returned Response: " + response.status, response.status, "404");
+    }
+
 }

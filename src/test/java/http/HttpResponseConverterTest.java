@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class HttpResponseConverterTest {
@@ -47,13 +48,13 @@ public class HttpResponseConverterTest {
 
     @Test public void whenConvertingAnHttpResponseToRawHttpResponseAsBytes_includesImageData() throws IOException {
         HttpResponse response = new HttpResponse();
-        String base_path = System.getProperty("user.dir");
-        byte[] testImageData = Files.readAllBytes(new File(base_path + "/src/main/java/main/homer_simpson.gif").toPath());
+        byte[] testImageData = this.getClass().getResourceAsStream("/homer_simpson.gif").readAllBytes();
         response.headers.add("Content-Type: image/gif");
         response.headers.add("Content-Length: " + testImageData.length);
 
         StringBuilder expectedHeaders = new StringBuilder();
         response.headers.forEach((header) -> expectedHeaders.append(header + "\n"));
+        response.body = testImageData;
         response.body = testImageData;
 
         byte[] rawResponse = HttpResponseConverter.toBytes(response);
