@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/Naomi-Dennis/apprentice-echo-server.svg?branch=master)](https://travis-ci.com/Naomi-Dennis/apprentice-echo-server)
 
-# Echo & Http Server
+# Echo & Http/1.1 Server
 
 ## EchoServer
 
@@ -26,7 +26,7 @@ some text
 => some text 
 ```
 
-## Http Server 
+## Http Server
 
 A basic server that processes simple http requests. Limited support for media data and DELETE, PUT and PATCH requests. 
 
@@ -46,9 +46,10 @@ A basic server that processes simple http requests. Limited support for media da
 * HEAD /simple_get
 * HEAD /get_with_body
 * POST /echo_body
-* OPTIONS /get_with_body
 * OPTIONS /method_options
 * OPTIONS /method_options2
+
+** OPTIONS for any defined route
 
 ### Usage 
 
