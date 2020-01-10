@@ -36,7 +36,6 @@ public class Main {
                 Map.entry(new RouteId(HttpMethod.POST, "/echo_body"), new EchoBody()),
                 Map.entry(new RouteId(HttpMethod.GET, "/redirect"), new Redirect()),
                 Map.entry(new RouteId(HttpMethod.GET, "/get_with_body"), new SimpleHelloWorld()),
-                Map.entry(new RouteId(HttpMethod.OPTIONS, "/get_with_body"), new OptionsGetWithBody()),
                 Map.entry(new RouteId(HttpMethod.OPTIONS, "/method_options"), new MethodOption()),
                 Map.entry(new RouteId(HttpMethod.OPTIONS, "/method_options2"), new MethodOptionB()),
                 Map.entry(new RouteId(HttpMethod.GET, "/cool_gif"), new CoolGif(logger))

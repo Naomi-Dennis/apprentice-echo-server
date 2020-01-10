@@ -119,7 +119,7 @@ public class RouterTest {
     }
 
     @Test
-    public void whenProcessingAnOptionsMethodToAnExistingPath_respondWith200AndAllowHeader() {
+    public void whenProcessingAnOptionsMethodToAnExistingPath_respondWith204AndAllowHeader() {
         HttpRequest request = defineOptionsRequest();
         Map<RouteId, Application> routes = Map.ofEntries(
                 Map.entry(new RouteId(HttpMethod.GET, "simple_get"),
@@ -129,10 +129,10 @@ public class RouterTest {
         Router router = new Router(routes);
 
         HttpResponse response = router.start(request);
-        boolean responseHasStatus200AndAllowHeader = response.status.equals("200") &&
+        boolean responseHasStatus204AndAllowHeader = response.status.equals("204") &&
                 response.headers.contains("Allow: OPTIONS, GET");
 
-        Assert.assertTrue(response.status, responseHasStatus200AndAllowHeader);
+        Assert.assertTrue(response.status, responseHasStatus204AndAllowHeader);
     }
 
     @Test

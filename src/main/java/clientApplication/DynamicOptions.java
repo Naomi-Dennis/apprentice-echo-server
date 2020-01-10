@@ -16,7 +16,7 @@ public class DynamicOptions implements Application {
 
     public HttpResponse start(HttpRequest request) {
         HttpResponse response = new HttpResponse();
-        response.status = "200";
+        response.status = "204";
         response.headers = new ArrayList<String>(){{
             add("Content-Length: 0");
             add("Allow: " + methodsNotAllowed);
